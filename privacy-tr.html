@@ -86,7 +86,7 @@
       <td>Satın alma kayıtları (kredi, Pro abonelik)</td>
       <td>Apple App Store / Google Play, RevenueCat aracılığıyla</td>
       <td>Kredilerin tanımlanması, aboneliğin yönetimi, kötüye kullanımın önlenmesi</td>
-      <td>Hesabını silene kadar; mağazalar kendi makbuzlarını ayrıca tutar</td>
+      <td>Hesabını silene kadar; Apple/Google ve RevenueCat kendi satın alma kayıtlarını ayrıca tutar</td>
     </tr>
     <tr>
       <td>Kullanım analitiği (kişisel bilgi içermez)</td>
@@ -116,9 +116,8 @@
   </ul>
 
   <h2>4. Kişisel Verilerin Aktarıldığı Taraflar</h2>
-  <p>Az sayıda hizmet sağlayıcı kullanıyoruz. Verilerin yalnızca aşağıdaki işleyenlerle,
-     yalnızca hizmeti sana sunmak için ve talimatlarımız doğrultusunda paylaşılır. Verilerini
-     satmıyoruz.</p>
+  <p>Az sayıda hizmet sağlayıcı kullanıyoruz. Verini yalnızca hizmeti sana sunmak için, kendi
+     hizmet koşulları ve gizlilik politikaları uyarınca işlerler. Verilerini satmıyoruz.</p>
   <table>
     <tr><th>Sağlayıcı</th><th>Rol</th><th>Bölge</th></tr>
     <tr><td>Supabase</td><td>Veritabanı, dosya depolama, giriş</td><td>AB (İrlanda)</td></tr>
@@ -126,14 +125,15 @@
     <tr><td>Anthropic (Claude)</td><td>Fotoğraf ve selfie'lerin otomatik kalite ve uygunluk denetimi (yüz var mı, kişi yetişkin mi, içerik uygun mu)</td><td>Sağlayıcının altyapısı; bkz. Anthropic politikası</td></tr>
     <tr><td>RevenueCat</td><td>Abonelik ve kredi satın alma kayıtları</td><td>Sağlayıcının altyapısı</td></tr>
     <tr><td>Apple App Store / Google Play</td><td>Ödeme işleme; kart bilgilerini hiçbir zaman görmeyiz</td><td>Apple / Google</td></tr>
-    <tr><td>PostHog</td><td>Kullanım analitiği; takma kimlikli, kişisel bilgi içermez</td><td>Sağlayıcının altyapısı</td></tr>
+    <tr><td>PostHog</td><td>Kullanım analitiği; takma kimlikli, kişisel bilgi içermez</td><td>ABD (us.i.posthog.com)</td></tr>
     <tr><td>Sentry</td><td>Çökme ve hata raporları; kişisel bilgi ve oturum kaydı kapalı</td><td>Sağlayıcının altyapısı</td></tr>
     <tr><td>Resend</td><td>Giriş kodu e-postasının gönderimi</td><td>Sağlayıcının altyapısı</td></tr>
     <tr><td>Trigger.dev</td><td>Render iş kuyruğunun çalıştırılması</td><td>Sağlayıcının altyapısı</td></tr>
     <tr><td>Expo</td><td>Anlık bildirimlerin iletilmesi</td><td>Sağlayıcının altyapısı</td></tr>
   </table>
-  <p>Bu sağlayıcıların bir kısmı yurt dışındadır; kişisel verilerin yurt dışına aktarımı
-     KVKK m. 9 çerçevesinde, sağlayıcıların standart sözleşmesel güvenceleriyle yapılır.</p>
+  <p>Bu sağlayıcıların bir kısmı yurt dışındadır; yurt dışına aktarım sağlayıcıların
+     sözleşmesel güvencelerine dayanır ve KVKK m. 9'daki gerekliliklere uygun hâle getirilmesi
+     için çalışıyoruz.</p>
 
   <h2>5. Saklama ve Silme</h2>
   <ul>
@@ -144,7 +144,8 @@
     <li><strong>Hesap silme:</strong> uygulama içinden yapılır (Profil → Hesabı sil). Hesabını,
         fotoğraflarını, selfie'ni, render'larını, kredi geçmişini ve analitik kişi kaydını
         siler. Bize e-posta atmana gerek yoktur.</li>
-    <li><strong>Yedekler:</strong> silinen veriler 30 gün içinde yedeklerden de temizlenir.</li>
+    <li><strong>Yedekler:</strong> yedek kopyalar sağlayıcımızın olağan yedekleme döngüsü içinde
+        temizlenir.</li>
   </ul>
 
   <h2>6. Çocuklar</h2>
@@ -160,8 +161,9 @@
     <li>Tüm trafik aktarım sırasında şifrelenir (TLS). Yapay zekâ sağlayıcılarının anahtarları
         uygulamanın içinde hiçbir zaman yer almaz.</li>
   </ul>
-  <p>Hiçbir sistem kusursuz güvenli değildir. Verilerini etkileyen bir ihlal öğrenirsek, kanunun
-     gerektirdiği şekilde seni ve Kişisel Verileri Koruma Kurulu'nu bilgilendiririz.</p>
+  <p>Hiçbir sistem kusursuz güvenli değildir. Verilerini etkileyen bir ihlal öğrenirsek, seni ve
+     ilgili denetim makamlarını (Türkiye'de Kişisel Verileri Koruma Kurulu) kanunun gerektirdiği
+     şekilde bilgilendiririz.</p>
 
   <h2>8. Değişiklikler</h2>
   <p>Bu sayfa değiştiğinde üstteki tarihi güncelleriz. Seni ilgilendiren bir değişiklik olursa
@@ -189,7 +191,7 @@
   <p>Taleplerini hesabına kayıtlı e-posta adresinden
      <a href="mailto:anilunkaya@gmail.com">anilunkaya@gmail.com</a> adresine iletebilirsin.
      Başvurular, Veri Sorumlusuna Başvuru Usul ve Esasları Hakkında Tebliğ uyarınca en geç
-     <strong>otuz gün</strong> içinde sonuçlandırılır. Silme için en hızlı yol uygulama
+     <strong>otuz gün</strong> (GDPR kapsamında bir ay) içinde sonuçlandırılır. Silme için en hızlı yol uygulama
      içindeki hesap silme işlemidir. Sonuçtan memnun kalmazsan Kişisel Verileri Koruma
      Kurulu'na şikâyette bulunabilirsin.</p>
 

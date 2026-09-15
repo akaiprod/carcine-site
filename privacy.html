@@ -83,7 +83,7 @@
       <td>Purchase records (credits, Pro subscription)</td>
       <td>Apple App Store / Google Play via RevenueCat</td>
       <td>Granting credits, managing your subscription, preventing fraud</td>
-      <td>Until you delete your account; stores keep their own receipts</td>
+      <td>Until you delete your account; Apple/Google and RevenueCat keep their own purchase records</td>
     </tr>
     <tr>
       <td>Usage analytics (no personal details)</td>
@@ -114,7 +114,7 @@
 
   <h2>4. Who processes data for us</h2>
   <p>We use a small number of service providers. They process your data only to provide the
-     service to you, on our instructions. We do not sell your data.</p>
+     service, under their own service terms and privacy policies. We do not sell your data.</p>
   <table>
     <tr><th>Provider</th><th>Role</th><th>Region</th></tr>
     <tr><td>Supabase</td><td>Database, file storage, sign-in</td><td>EU (Ireland)</td></tr>
@@ -122,14 +122,15 @@
     <tr><td>Anthropic (Claude)</td><td>Automated quality and safety review of photos and selfies (is there a face, is the person an adult, is the content appropriate)</td><td>Provider's infrastructure; see Anthropic's policy</td></tr>
     <tr><td>RevenueCat</td><td>Subscription and credit purchase records</td><td>Provider's infrastructure</td></tr>
     <tr><td>Apple App Store / Google Play</td><td>Payment processing; we never see your card details</td><td>Apple / Google</td></tr>
-    <tr><td>PostHog</td><td>Usage analytics, pseudonymous, no personal details</td><td>Provider's infrastructure</td></tr>
+    <tr><td>PostHog</td><td>Usage analytics, pseudonymous, no personal details</td><td>United States (us.i.posthog.com)</td></tr>
     <tr><td>Sentry</td><td>Crash and error reports; personal details and session replay disabled</td><td>Provider's infrastructure</td></tr>
     <tr><td>Resend</td><td>Sending the sign-in code e-mail</td><td>Provider's infrastructure</td></tr>
     <tr><td>Trigger.dev</td><td>Running the render job queue</td><td>Provider's infrastructure</td></tr>
     <tr><td>Expo</td><td>Delivering push notifications</td><td>Provider's infrastructure</td></tr>
   </table>
-  <p>Some of these providers are outside the EU and Türkiye. Where that is the case, we rely on
-     the provider's standard contractual safeguards.</p>
+  <p>Some of these providers are outside Türkiye and the EU; transfers rely on the providers'
+     contractual safeguards, and we are working to meet the transfer requirements of GDPR and
+     KVKK.</p>
 
   <h2>5. Retention and deletion</h2>
   <ul>
@@ -140,7 +141,8 @@
     <li><strong>Account deletion:</strong> available in the app (Profile → Delete account). It
         removes your account, photos, selfie, renders, credit history and your analytics person
         record. You do not need to e-mail us.</li>
-    <li><strong>Backups:</strong> deleted data leaves our backups within 30 days.</li>
+    <li><strong>Backups:</strong> backup copies are purged within our provider's normal backup
+        cycle.</li>
   </ul>
 
   <h2>6. Your rights</h2>
@@ -154,8 +156,8 @@
     <li>withdraw consent for your selfie at any time (Profile → Delete my selfie).</li>
   </ul>
   <p>Write to <a href="mailto:anilunkaya@gmail.com">anilunkaya@gmail.com</a> from the e-mail
-     address of your account. We answer within 30 days. If you are unhappy with our answer,
-     you may complain to your local data protection authority.</p>
+     address of your account. We answer within one month (30 days), or longer where the law
+     allows. If you are unhappy with our answer, you may complain to your local data protection authority.</p>
 
   <h2>7. Children</h2>
   <p>Carcine is for people aged 13 and over. The selfie / driver feature is for adults (18+)
