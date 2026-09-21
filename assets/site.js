@@ -287,6 +287,7 @@ function initMotion() {
     motionStrip(ctrl.signal);
     motionReel();
     motionProof();
+    motionHeadings();
     motionHow();
     motionShowcase(ctrl.signal);
     motionSelfie();
@@ -461,4 +462,15 @@ function motionProof() {
   });
   tl.to(imgs, { x: 0, y: 0, scale: .2, opacity: 0, duration: .8, ease: 'power3.in', stagger: .03 }, 1.6)
     .to(v.parentElement, { scale: 1, opacity: 1, duration: .8, ease: 'power3.out' }, 1.9);
+}
+
+/** Bölüm başlıkları: scroll'la harf harf yükselir (bir kez). */
+function motionHeadings() {
+  document.querySelectorAll('section:not(.hero) h2.big').forEach((h) => {
+    splitChars(h);
+    gsap.from(h.querySelectorAll('.ch'), {
+      yPercent: 100, opacity: 0, stagger: .015, duration: .7, ease: 'power3.out',
+      scrollTrigger: { trigger: h, start: 'top 85%', once: true },
+    });
+  });
 }

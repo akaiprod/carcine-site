@@ -173,3 +173,19 @@ section { padding: 120px 0; scroll-margin-top: 72px; }
   .proof-ring img { position: static; transform: none; width: 100%; }
   .proof-video { margin: 20px auto 0; width: min(280px, 80vw); }
 }
+
+h2.big .ch { display: inline-block; }
+/* .plan'e overflow: hidden konmadı — rozet top: -12px'te kırpılırdı; conic kenarı maske zaten sınırlıyor. */
+.plan::before { content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: conic-gradient(from var(--a, 0deg), transparent 0 70%, var(--brand) 85%, transparent 100%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask-composite: exclude; -webkit-mask-composite: xor; opacity: 0; transition: opacity .3s; pointer-events: none; }
+.plan:hover::before { opacity: 1; animation: spin 2.4s linear infinite; }
+@property --a { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+@keyframes spin { to { --a: 360deg; } }
+.faq details p { overflow: hidden; animation: fadeUp .3s ease; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } }
+.faq summary { display: flex; justify-content: space-between; align-items: center; }
+.faq summary::after { content: '+'; color: var(--brand); font: 800 28px/1 var(--display); transition: transform .3s; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.nav nav a { position: relative; }
+.nav nav a::after { content: ''; position: absolute; left: 0; right: 0; bottom: -4px; height: 1px; background: var(--brand); transform: scaleX(0); transform-origin: left; transition: transform .3s; }
+.nav nav a:hover::after { transform: scaleX(1); }
+@media (prefers-reduced-motion: reduce) { .plan:hover::before { animation: none; } .faq details p { animation: none; } }
