@@ -2,7 +2,7 @@
 
 /** Dil: ?lang=tr|en > localStorage > navigator (tr*) > en. */
 export function pickLang({ query, stored, navigatorLang }) {
-  const q = new URLSearchParams(query || '').get('lang');
+  const q = (new URLSearchParams(query || '').get('lang') || '').toLowerCase();
   if (q === 'tr' || q === 'en') return q;
   if (stored === 'tr' || stored === 'en') return stored;
   return /^tr/i.test(navigatorLang || '') ? 'tr' : 'en';
@@ -10,7 +10,7 @@ export function pickLang({ query, stored, navigatorLang }) {
 
 /** Noktalı anahtar; eksikte anahtarın kendisi döner (sayfada görünür → fark edilir). */
 export function t(dict, key) {
-  const v = key.split('.').reduce((o, k) => (o && typeof o === 'object' ? o[k] : undefined), dict);
+  const v = key.split('.').reduce((o, k) => (o && typeof o === 'object' && Object.hasOwn(o, k) ? o[k] : undefined), dict);
   return typeof v === 'string' ? v : key;
 }
 
@@ -32,6 +32,6 @@ export function stripPicks(catalog, n) {
   return out;
 }
 
-export function fmtDuration(sec) {
-  return `${sec} s`;
+export function fmtDuration(sec, lang) {
+  return `${sec} ${lang === 'tr' ? 'sn' : 's'}`;
 }

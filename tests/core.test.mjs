@@ -8,6 +8,7 @@ test('pickLang: ?lang > localStorage > navigator > en', () => {
   assert.equal(pickLang({ query: '?lang=xx', stored: 'tr', navigatorLang: 'en-US' }), 'tr');
   assert.equal(pickLang({ query: '', stored: null, navigatorLang: 'tr-TR' }), 'tr');
   assert.equal(pickLang({ query: '', stored: null, navigatorLang: 'de' }), 'en');
+  assert.equal(pickLang({ query: '?lang=TR', stored: 'en', navigatorLang: 'en-US' }), 'tr');
   assert.equal(pickLang({ query: '', stored: 'bozuk', navigatorLang: undefined }), 'en');
 });
 
@@ -15,6 +16,8 @@ test('t: noktalı anahtar, eksikte anahtarın kendisi', () => {
   const d = { hero: { title: 'PUT YOUR BUILD' } };
   assert.equal(t(d, 'hero.title'), 'PUT YOUR BUILD');
   assert.equal(t(d, 'hero.yok'), 'hero.yok');
+  assert.equal(t({}, 'constructor.name'), 'constructor.name');
+  assert.equal(t(Object.create({ miras: 'devralinan' }), 'miras'), 'miras');
 });
 
 test('stripPicks: kategoriler arası sırayla, n tane', () => {
@@ -30,8 +33,8 @@ test('stripPicks: kategoriler arası sırayla, n tane', () => {
 });
 
 test('fmtDuration', () => {
-  assert.equal(fmtDuration(10), '10 s');
-  assert.equal(fmtDuration(15), '15 s');
+  assert.equal(fmtDuration(10, 'en'), '10 s');
+  assert.equal(fmtDuration(15, 'tr'), '15 sn');
 });
 
 test('i18n.json: en ve tr aynı anahtar kümesi, boş değer yok', () => {

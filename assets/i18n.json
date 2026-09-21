@@ -27,12 +27,12 @@
     "templates": {
       "label": "Templates",
       "title": "36 scenes. Your car in every one.",
-      "sub": "Tap a card to watch. All previews are AI-generated from the same eight photos of one car."
+      "sub": "Tap a card to watch. All previews are AI-generated from real owner photos."
     },
     "selfie": {
       "label": "You, at the wheel",
       "title": "Add a selfie — you're driving in every shot.",
-      "sub": "One selfie puts you behind the wheel. Never a close-up, never a face swap on someone else. Your photos are deleted when you delete your car."
+      "sub": "One selfie puts you behind the wheel. Never a close-up, never a face swap on someone else. Your selfie stays yours — delete it any time from Profile."
     },
     "pricing": {
       "label": "Pricing",
@@ -43,9 +43,8 @@
       "proMonthlyBadge": "Best value",
       "proPriceWeekly": "$6.99",
       "proPriceMonthly": "$16.99",
-      "proPer": "per",
-      "proWeek": "week",
-      "proMonth": "month",
+      "proPerWeek": "per week",
+      "proPerMonth": "per month",
       "proFeat1": "50 credits every week",
       "proFeat2": "Priority render queue",
       "proFeat3": "Cancel anytime",
@@ -67,13 +66,13 @@
       "q1": "How many photos do I need?",
       "a1": "Eight, taken with the in-app guide: front, front quarters, sides, rear quarters, rear. Good daylight and a clean background help.",
       "q2": "How long does a film take?",
-      "a2": "Usually two to four minutes. You get a notification when it's ready.",
+      "a2": "Usually a few minutes. You get a notification when it's ready.",
       "q3": "Do my plate, badges and wheels stay the same?",
-      "a3": "Yes — the film is generated from your photos, so your colour, badges, wheels and plate are kept. You can also hide the plate.",
+      "a3": "Yes — the film is generated from your photos, so your color, badges, wheels and plate are kept.",
       "q4": "What happens to my selfie?",
-      "a4": "It's used only to place you in the driver's seat of your own films and is stored privately in your account. Delete the car and it's gone.",
+      "a4": "It's used only to place you in the driver's seat of your own films. Delete it any time from Profile; the copy attached to a film is removed automatically 7 days after the render.",
       "q5": "Can I get a refund?",
-      "a5": "Purchases go through the App Store or Google Play and follow their refund rules. Credits are only spent when a film is delivered."
+      "a5": "Purchases go through the App Store or Google Play and follow their refund rules. If a film fails, its credits are refunded automatically."
     },
     "footer": {
       "privacy": "Privacy",
@@ -112,12 +111,12 @@
     "templates": {
       "label": "Şablonlar",
       "title": "36 sahne. Her birinde senin araban.",
-      "sub": "İzlemek için karta dokun. Tüm önizlemeler tek bir aracın aynı sekiz fotoğrafından yapay zekâ ile üretildi."
+      "sub": "İzlemek için karta dokun. Tüm önizlemeler gerçek sahip fotoğraflarından yapay zekâ ile üretildi."
     },
     "selfie": {
       "label": "Direksiyonda sen",
       "title": "Bir selfie ekle — her sahnede sen sürüyorsun.",
-      "sub": "Tek bir selfie seni direksiyona oturtur. Asla yakın plan yok, başkasının yüzü yok. Aracını sildiğinde fotoğrafların da silinir."
+      "sub": "Tek bir selfie seni direksiyona oturtur. Asla yakın plan yok, başkasının yüzü yok. Selfie senindir — Profil'den istediğin an silersin."
     },
     "pricing": {
       "label": "Fiyat",
@@ -128,9 +127,8 @@
       "proMonthlyBadge": "En avantajlı",
       "proPriceWeekly": "₺299,99",
       "proPriceMonthly": "₺999,99",
-      "proPer": "/",
-      "proWeek": "hafta",
-      "proMonth": "ay",
+      "proPerWeek": "/ hafta",
+      "proPerMonth": "/ ay",
       "proFeat1": "Her hafta 50 kredi",
       "proFeat2": "Öncelikli render sırası",
       "proFeat3": "İstediğin zaman iptal",
@@ -152,13 +150,13 @@
       "q1": "Kaç fotoğraf gerekiyor?",
       "a1": "Sekiz; uygulama içi rehberle: ön, ön çeyrekler, yanlar, arka çeyrekler, arka. Gün ışığı ve sade arka plan işi kolaylaştırır.",
       "q2": "Film ne kadar sürede gelir?",
-      "a2": "Genellikle iki ila dört dakika. Hazır olunca bildirim alırsın.",
+      "a2": "Genellikle birkaç dakika. Hazır olunca bildirim alırsın.",
       "q3": "Plakam, amblemlerim ve jantlarım aynı kalır mı?",
-      "a3": "Evet — film senin fotoğraflarından üretilir; rengin, amblemlerin, jantların ve plakan korunur. Plakayı gizlemeyi de seçebilirsin.",
+      "a3": "Evet — film senin fotoğraflarından üretilir; rengin, amblemlerin, jantların ve plakan korunur.",
       "q4": "Selfie'me ne olur?",
-      "a4": "Yalnızca kendi filmlerinde seni sürücü koltuğuna oturtmak için kullanılır ve hesabında özel saklanır. Aracı sil, o da silinir.",
+      "a4": "Yalnızca kendi filmlerinde seni sürücü koltuğuna oturtmak için kullanılır. Profil'den istediğin an silersin; filme eklenen kopya render'dan 7 gün sonra kendiliğinden silinir.",
       "q5": "İade alabilir miyim?",
-      "a5": "Satın almalar App Store ya da Google Play üzerinden yapılır ve onların iade kurallarına tabidir. Kredi yalnızca film teslim edilince harcanır."
+      "a5": "Satın almalar App Store ya da Google Play üzerinden yapılır ve onların iade kurallarına tabidir. Film başarısız olursa kredin otomatik iade edilir."
     },
     "footer": {
       "privacy": "Gizlilik",
