@@ -245,12 +245,59 @@ function buildProof() {
   });
 }
 
+// Capture halkası: uygulamanın AngleRing'inin site kopyası (carcine src/components/AngleRing.tsx).
+// Açı sırası ve kısaltmalar uygulamanın kendi İngilizce metinleri — i18n'e girmez.
+const RING_LABELS = ['FRONT', 'FR 3/4 L', 'SIDE L', 'RR 3/4 L', 'REAR', 'RR 3/4 R', 'SIDE R', 'FR 3/4 R'];
+// Nokta elipsi; çevre çizgisi 8px dışından geçer (uygulamadaki DOT_INSET karşılığı).
+const RING = { cx: 150, cy: 430, rx: 122, ry: 38, inset: 8 };
+
+/** i. noktanın merkezi: 0 = sağ uç (aracın önü), uygulamadaki ringDotPositions ile aynı yön. */
+function ringDot(i) {
+  const a = -(i / RING_LABELS.length) * 2 * Math.PI;
+  return { x: RING.cx + RING.rx * Math.cos(a), y: RING.cy + RING.ry * Math.sin(a) };
+}
+
+/** Aktif nokta + etiket. r hem CSS'ten hem attribute'tan: CSS geometri özelliği desteklenmezse attribute kalır. */
+function setRingActive(i) {
+  const host = document.getElementById('shot-ring');
+  if (!host) return;
+  host.querySelectorAll('.dot').forEach((d, j) => {
+    d.classList.toggle('is-active', j === i);
+    d.setAttribute('r', j === i ? 8 : 5);
+  });
+  const label = host.querySelector('.ring-label');
+  if (label) label.textContent = RING_LABELS[i];
+}
+
+/** Telefonun 1. adım karesi: elips + 8 nokta + tepeden araç + aktif açı etiketi + sayaç. */
+function buildCaptureRing() {
+  const host = document.getElementById('shot-ring');
+  if (!host) return;
+  const dots = RING_LABELS.map((_, i) => {
+    const p = ringDot(i);
+    return `<circle class="dot" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="5"/>`;
+  }).join('');
+  // Araç görseli kaynakta burun YUKARI (446×850); halkada burun SAĞDA → merkez etrafında 90°.
+  const carW = 63, carH = 120;
+  host.innerHTML = `<svg viewBox="0 0 300 640" preserveAspectRatio="xMidYMid slice" aria-hidden="true">`
+    + `<rect width="300" height="640" fill="var(--bg)"/>`
+    + `<ellipse cx="${RING.cx}" cy="${RING.cy}" rx="${RING.rx + RING.inset}" ry="${RING.ry + RING.inset}" fill="none" stroke="var(--line)" stroke-width="1"/>`
+    + `<image href="assets/images/step-capture.png" width="${carW}" height="${carH}"`
+    + ` x="${RING.cx - carW / 2}" y="${RING.cy - carH / 2}" transform="rotate(90 ${RING.cx} ${RING.cy})"/>`
+    + dots
+    + `<text class="ring-label" x="26" y="352">${RING_LABELS[0]}</text>`
+    + `<text class="ring-count" x="274" y="510" text-anchor="end">8 OF 8</text>`
+    + `</svg>`;
+  setRingActive(RING_LABELS.length - 1); // hareketsiz varsayılan: tur tamam
+}
+
 /** GSAP'siz sayfada da dolu görünsün: sonuç karesi, selfie fonu, ilk adım görseli. */
 function seedStills(first) {
   const shot = document.getElementById('shot-result');
   if (shot) shot.src = first.poster;
   const bg = document.getElementById('selfie-bg');
   if (bg) bg.style.backgroundImage = `url("${first.poster}")`;
+  buildCaptureRing();
   const step1 = document.querySelector('.shot[data-step="1"]');
   if (step1) step1.classList.add('is-on');
 }
@@ -345,6 +392,7 @@ function initMotion() {
     motionHeroTitle();
     initCursor(ctrl.signal);
     motionStrip(ctrl.signal);
+    motionRing(ctrl.signal);
     // Pin'ler belge sırasıyla kurulur: sonraki bölümün start'ı önceki pin-spacer'ı hesaba katsın.
     motionReel();
     motionHow();
@@ -426,6 +474,21 @@ function motionStrip(signal) {
   });
   // Sekme arka planda: döngü dursun (pil).
   document.addEventListener('visibilitychange', () => (document.hidden ? loop.pause() : loop.resume()), { signal });
+}
+
+/** Capture halkası: aktif nokta 700 ms'de bir ilerler; sorgu dışına çıkınca durur ve son noktada kalır. */
+function motionRing(signal) {
+  if (!document.getElementById('shot-ring')) return;
+  let i = 0;
+  setRingActive(i);
+  const id = setInterval(() => {
+    i = (i + 1) % RING_LABELS.length;
+    setRingActive(i);
+  }, 700);
+  signal.addEventListener('abort', () => {
+    clearInterval(id);
+    setRingActive(RING_LABELS.length - 1);
+  });
 }
 
 /** Pin'li bölüm: scrub ile 3 adım sırayla belirir, telefon ekranı adım görselini değiştirir, telefon yavaş kayar. */

@@ -22,6 +22,10 @@ Python sunucusu dosyaları tarayıcı önbelleğinde bayat bırakabiliyor; bir d
   hero videosu durur (yalnız poster), showreel pin yerine yatay kart dizisi, grain durur, imleç yok.
   Hareketsiz durumu denemek için bunu kullan.
 
+Telefon çerçevesinin 1. adım karesi görsel değil: `assets/site.js` içindeki `buildCaptureRing()`
+uygulamanın capture halkasını (elips + 8 nokta + tepeden araç + açı etiketi + sayaç) satır içi SVG
+olarak kurar; `step-capture.png` yalnız ortadaki araç ikonudur.
+
 ## Veri ve varlıklar
 
 **`assets/templates.json`** — şablon kataloğu (ad/süre/kategori/poster/render URL'leri).
