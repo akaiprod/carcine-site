@@ -64,6 +64,7 @@ function applyI18n() {
   const tr = lang === 'tr' ? '-tr' : '';
   document.getElementById('link-privacy').href = `privacy${tr}.html`;
   document.getElementById('link-terms').href = `terms${tr}.html`;
+  document.getElementById('link-contact').href = `contact${tr}.html`;
   document.querySelectorAll('[data-name-en]').forEach((el) => {
     const name = el.dataset[lang === 'tr' ? 'nameTr' : 'nameEn'];
     el.textContent = name;
