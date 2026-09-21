@@ -1,4 +1,4 @@
-import { FEATURED_SLUGS, REEL_SLUGS, STRIP_COUNT, fmtDuration, jagPhoto, pickLang, showcasePicks, siteThumb, siteVideo, stripPicks, t } from './core.js';
+import { FEATURED_SLUGS, REEL_SLUGS, STRIP_COUNT, fmtDuration, jagPhoto, pickLang, showcasePicks, siteThumb, siteVideo, stripPicks, t } from './core.js?v=82fb066';
 
 const LS = 'carcine.lang';
 let lang = 'en';

@@ -50,3 +50,8 @@ içinden çıkarıldı (lottie-web, kare 119); kaynak-of-truth Lottie dosyasıd�
 Hero posteri LCP adayı olduğu için `index.html` içinde **iki yerde** elle yazılı
 (`<link rel="preload" as="image">` ve `<video poster>`) — `templates.json` yenilenip neon-cruise
 poster damgası değişirse ikisini de güncelle, yoksa poster 404 döner.
+
+## Önbellek kırıcı
+GitHub Pages `max-age=600` ile sunar; `index.html` ve alt sayfalar `assets/*.css|js?v=<kısa sha>` ile yüklenir, `site.js` de `core.js?v=`
+ile. Her yayında güncelle: `V=$(git rev-parse --short HEAD)` ve `sed` ile `?v=` değerlerini değiştir (aksi hâlde eski JS + yeni HTML
+karışır — 21 Eyl: boş telefon çerçevesi).
