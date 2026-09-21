@@ -67,10 +67,10 @@ section { padding: 120px 0; scroll-margin-top: 72px; }
 /* 1. adım: uygulamanın capture halkası (site.js içinde satır içi SVG üretilir). */
 .shot-ring svg { width: 100%; height: 100%; display: block; }
 .shot-ring .dot { fill: var(--cyan); transition: r .2s, opacity .2s; opacity: .45; }
-.shot-ring .dot.is-active { r: 8px; opacity: 1; filter: drop-shadow(0 0 7px var(--cyan)); }
-.shot-ring .ring-label, .shot-ring .ring-count { font: 500 11px/1 var(--mono); letter-spacing: .14em; }
-.shot-ring .ring-label { fill: var(--text); }
-.shot-ring .ring-count { fill: var(--muted); }
+.shot-ring .dot.is-active { r: 9px; opacity: 1; filter: drop-shadow(0 0 7px var(--cyan)); }
+.shot-ring .ring-label, .shot-ring .ring-count { letter-spacing: .14em; font-family: var(--mono); font-weight: 500; }
+.shot-ring .ring-label { font-size: 13px; fill: var(--text); }
+.shot-ring .ring-count { font-size: 12px; fill: var(--muted); }
 
 .mosaic { display: grid; grid-template-columns: repeat(6, 1fr); grid-auto-flow: dense; gap: 14px; margin-top: 36px; }
 .mosaic .card { width: auto; cursor: pointer; }
