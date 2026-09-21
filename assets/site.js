@@ -1,9 +1,11 @@
-import { FEATURED_SLUGS, STRIP_COUNT, fmtDuration, pickLang, showcasePicks, siteVideo, stripPicks, t } from './core.js';
+import { FEATURED_SLUGS, REEL_SLUGS, STRIP_COUNT, fmtDuration, pickLang, showcasePicks, siteVideo, stripPicks, t } from './core.js';
 
 const LS = 'carcine.lang';
 let lang = 'en';
 let dict = {};
 let catalog = { categories: [] };
+let reelItems = [];
+let reelIndex = 0;
 
 function readStored() { try { return localStorage.getItem(LS); } catch { return null; } }
 function writeStored(v) { try { localStorage.setItem(LS, v); } catch { /* özel pencere */ } }
@@ -25,6 +27,23 @@ function applyI18n() {
   });
   document.querySelectorAll('[data-cat-en]').forEach((el) => { el.textContent = el.dataset[lang === 'tr' ? 'catTr' : 'catEn']; });
   document.querySelectorAll('[data-sec]').forEach((el) => { el.textContent = fmtDuration(Number(el.dataset.sec), lang); });
+  renderReelMeta();
+}
+
+/** Showreel etiketleri (kategori + süre) — sahne değişiminde tek başına da çağrılır. */
+function renderReelMeta() {
+  const meta = document.getElementById('reel-meta');
+  if (!meta || !reelItems.length) return;
+  const tpl = reelItems[reelIndex];
+  const cat = catalog.categories.find((c) => c.templates.includes(tpl));
+  meta.textContent = '';
+  for (const txt of [cat ? cat.name[lang] : null, fmtDuration(tpl.duration_sec, lang)]) {
+    if (!txt) continue;
+    const chip = document.createElement('span');
+    chip.className = 'chip';
+    chip.textContent = txt;
+    meta.appendChild(chip);
+  }
 }
 
 function card(tpl, { eager = false, interactive = false } = {}) {
@@ -102,6 +121,54 @@ function buildStrip() {
   return picks;
 }
 
+/** Showreel: 5 featured sahne tek çerçevede (masaüstü pin) + mobil scroll-snap kartları. */
+function buildReel() {
+  const all = catalog.categories.flatMap((c) => c.templates);
+  const items = REEL_SLUGS.map((slug) => all.find((tpl) => tpl.slug === slug)).filter(Boolean);
+  const frame = document.getElementById('reel-frame');
+  const titles = document.getElementById('reel-titles');
+  const dots = document.getElementById('reel-dots');
+  const mobile = document.getElementById('reel-mobile');
+  if (!frame || !items.length) return items;
+  items.forEach((tpl, i) => {
+    const v = document.createElement('video');
+    v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'none';
+    v.poster = tpl.poster; v.dataset.src = siteVideo(tpl.slug); v.dataset.i = String(i);
+    frame.appendChild(v);
+    const h = document.createElement('div');
+    h.className = 'rt'; h.dataset.nameEn = tpl.name.en; h.dataset.nameTr = tpl.name.tr;
+    titles.appendChild(h);
+    const d = document.createElement('li');
+    if (i === 0) d.classList.add('is-on');
+    dots.appendChild(d);
+    mobile.appendChild(card(tpl, { interactive: true }));
+  });
+  const yours = document.createElement('span');
+  yours.className = 'yours'; yours.dataset.i18n = 'reel.yours';
+  frame.appendChild(yours);
+  const meta = document.createElement('div');
+  meta.className = 'reel-meta'; meta.id = 'reel-meta';
+  frame.parentElement.appendChild(meta);
+  return items;
+}
+
+/** Marquee: kategori adları + "her hafta yeni sahne", iki kopya (xPercent -50 döngüsü). */
+function buildMarquee() {
+  const track = document.getElementById('marquee');
+  if (!track) return;
+  const words = catalog.categories.map((c) => ({ en: c.name.en, tr: c.name.tr }));
+  for (const pass of [0, 1]) {
+    words.forEach((w) => {
+      const sp = document.createElement('span');
+      sp.dataset.nameEn = w.en; sp.dataset.nameTr = w.tr;
+      track.appendChild(sp);
+    });
+    const m = document.createElement('span');
+    m.dataset.i18n = 'templates.more';
+    track.appendChild(m);
+  }
+}
+
 /** GSAP'siz sayfada da dolu görünsün: sonuç karesi, selfie fonu, ilk adım görseli. */
 function seedStills(first) {
   const shot = document.getElementById('shot-result');
@@ -172,6 +239,8 @@ async function main() {
   dict = i18n; catalog = cat;
   lang = pickLang({ query: location.search, stored: readStored(), navigatorLang: navigator.language });
   const picks = buildStrip();
+  reelItems = buildReel();
+  buildMarquee();
   const featured = buildShowcase();
   const still = featured || picks[0];
   if (still) seedStills(still);
@@ -192,6 +261,7 @@ function initMotion() {
     motionHeroTitle();
     initCursor(ctrl.signal);
     motionStrip(ctrl.signal);
+    motionReel();
     motionHow();
     motionShowcase(ctrl.signal);
     motionSelfie();
@@ -303,4 +373,42 @@ function motionShowcase(signal) {
 /** İki katman: arka plan poster yavaş, metin normal. */
 function motionSelfie() {
   parallax('#selfie-bg', 14, '.selfie');
+}
+
+/** Showreel pin: scrub ilerlemesi sahneyi seçer — crossfade, tipografi uçuşu, nokta, oynatma. */
+function motionReel() {
+  const frame = document.getElementById('reel-frame');
+  if (!frame || !reelItems.length) return;
+  const videos = gsap.utils.toArray('#reel-frame video');
+  const titles = gsap.utils.toArray('#reel-titles .rt');
+  const dots = gsap.utils.toArray('#reel-dots li');
+  const n = videos.length;
+  // mp4'ler bölüm bir ekran yaklaşınca iner (açılışta yalnız hero videosu).
+  ScrollTrigger.create({ trigger: '.reel', start: 'top 150%', once: true, onEnter: () => videos.forEach((v) => { v.src = v.dataset.src; }) });
+  gsap.set(videos[0], { opacity: 1 });
+  gsap.set(titles[0], { opacity: 1 });
+  let active = 0;
+  const show = (i) => {
+    if (i === active) return;
+    gsap.to(videos[active], { opacity: 0, duration: .5 });
+    gsap.to(videos[i], { opacity: 1, duration: .5 });
+    gsap.fromTo(titles[i], { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: .5, ease: 'power3.out' });
+    gsap.to(titles[active], { x: 30, opacity: 0, duration: .35 });
+    dots[active].classList.remove('is-on');
+    dots[i].classList.add('is-on');
+    videos[active].pause();
+    videos[i].play().catch(() => {});
+    active = i;
+    reelIndex = i;
+    // Yalnız etiketler: applyI18n bütün [data-i18n] metnini yeniden yazar, başlık harflerini siler.
+    renderReelMeta();
+  };
+  ScrollTrigger.create({
+    trigger: '.reel', start: 'top top', end: `+=${n * 100}%`, pin: '.reel-stage', scrub: true,
+    onUpdate: (self) => show(Math.min(n - 1, Math.floor(self.progress * n))),
+    onEnter: () => videos[active].play().catch(() => {}),
+    onLeave: () => videos[active].pause(),
+    onEnterBack: () => videos[active].play().catch(() => {}),
+    onLeaveBack: () => videos[active].pause(),
+  });
 }

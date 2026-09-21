@@ -24,6 +24,12 @@
       "s3t": "Send it",
       "s3d": "Your 10–15 s film lands in a couple of minutes, vertical 9:16, ready for Reels and TikTok."
     },
+    "reel": {
+      "label": "Showreel",
+      "title": "Pick a scene.",
+      "hint": "Scroll to switch scenes",
+      "yours": "Your car here"
+    },
     "templates": {
       "label": "Templates",
       "title": "Your car. Every scene.",
@@ -109,6 +115,12 @@
       "s2d": "8 kategoride onlarca şablon: drift, gece sokakları, stüdyo, pist, arazi ve daha fazlası — her hafta yeni sahneler.",
       "s3t": "Gönder",
       "s3d": "10–15 sn'lik filmin birkaç dakikada gelir; dikey 9:16, Reels ve TikTok'a hazır."
+    },
+    "reel": {
+      "label": "Showreel",
+      "title": "Sahneni seç.",
+      "hint": "Sahne değiştirmek için kaydır",
+      "yours": "Burada senin araban"
     },
     "templates": {
       "label": "Şablonlar",
