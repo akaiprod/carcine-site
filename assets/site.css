@@ -119,25 +119,31 @@ section { padding: 120px 0; scroll-margin-top: 72px; }
 .hero-video { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; filter: saturate(1.1) contrast(1.05); }
 .hero-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,11,13,.35) 0%, rgba(10,11,13,.15) 35%, rgba(10,11,13,.75) 70%, var(--bg) 100%), radial-gradient(60% 50% at 20% 60%, rgba(255,59,20,.18), transparent 70%); }
 .hero .wrap, .hero .strip { position: relative; z-index: 1; }
-.hero h1.big .ch { display: inline-block; will-change: transform, opacity; }
+.hero h1.big .ch { display: inline-block; }
+.big .word { display: inline-block; white-space: nowrap; }
 .grain { position: fixed; inset: -50%; width: 200%; height: 200%; z-index: 90; pointer-events: none; opacity: .06; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); animation: grain 1.2s steps(6) infinite; }
 @keyframes grain { 0% { transform: translate(0,0); } 20% { transform: translate(-3%,2%); } 40% { transform: translate(2%,-4%); } 60% { transform: translate(-4%,-2%); } 80% { transform: translate(3%,3%); } 100% { transform: translate(0,0); } }
 .cursor { position: fixed; left: 0; top: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--brand); z-index: 95; pointer-events: none; transition: width .25s, height .25s, background .25s; display: none; }
 .cursor.is-play { width: 56px; height: 56px; background: rgba(255,59,20,.85); }
 .cursor.is-play::after { content: '▶'; color: #fff; font: 700 16px/56px var(--body); display: block; text-align: center; padding-left: 3px; }
-@media (pointer: fine) { .cursor { display: block; } }
-@media (prefers-reduced-motion: reduce) { .grain { animation: none; } .cursor { display: none; } }
+.cursor.is-live { display: block; }
+@media (prefers-reduced-motion: reduce) { .grain { animation: none; } }
+.nomotion .grain { animation: none; }
 
 .reel { padding: 0; }
-.reel-stage { position: relative; min-height: 100svh; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 32px; padding: 0 var(--gutter); max-width: var(--wrap); margin: 0 auto; }
+.reel-stage { position: relative; min-height: 100svh; display: grid; grid-template-columns: minmax(0, 1.15fr) auto minmax(0, .85fr); align-items: center; gap: 32px; padding: 0 var(--gutter); max-width: var(--wrap); margin: 0 auto; }
 .reel-copy { grid-column: 1; }
-.reel-titles { position: relative; height: 2.4em; margin: 18px 0 10px; font: italic 800 clamp(34px, 5vw, 64px)/1 var(--display); text-transform: uppercase; color: var(--brand); }
-.reel-titles .rt { position: absolute; left: 0; top: 0; white-space: nowrap; opacity: 0; }
+.reel-copy h2.big { font-size: clamp(32px, 4.2vw, 60px); overflow-wrap: normal; word-break: normal; hyphens: none; }
+.reel-titles { position: relative; height: auto; min-height: 2.2em; margin: 18px 0 10px; font: italic 800 clamp(30px, 4vw, 56px)/1 var(--display); text-transform: uppercase; color: var(--brand); }
+.reel-titles .rt { position: absolute; left: 0; top: 0; right: 0; white-space: normal; opacity: 0; }
 .reel-hint { font: 500 12px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
 .reel-frame { grid-column: 2; position: relative; height: 78svh; aspect-ratio: 9 / 16; border-radius: 28px; overflow: hidden; border: 1px solid rgba(255,255,255,.14); box-shadow: 0 50px 100px rgba(0,0,0,.6), 0 0 120px rgba(255,59,20,.15); background: var(--panel); }
 .reel-frame video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
-.reel-frame .yours { position: absolute; left: 14px; bottom: 14px; font: 500 11px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; background: rgba(10,11,13,.7); padding: 8px 10px; border-radius: 8px; z-index: 2; }
-.reel-meta { grid-column: 3; display: grid; gap: 10px; align-content: center; justify-items: start; }
+.reel-meta { grid-column: 3; display: grid; gap: 14px; align-content: center; justify-items: start; }
+.reel-count { font: 500 clamp(40px, 5vw, 72px)/1 var(--mono); color: var(--text); margin: 0; }
+.reel-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.reel-meta .sub { font-size: 14px; }
+.reel-meta .cta { font-size: 16px; padding: 10px 18px; }
 .reel-meta .chip { font: 500 11px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 8px 12px; }
 .reel-dots { position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%); display: flex; gap: 8px; list-style: none; margin: 0; padding: 0; }
 .reel-dots li { width: 8px; height: 8px; border-radius: 50%; background: var(--line); transition: background .3s, transform .3s; }
@@ -162,8 +168,8 @@ section { padding: 120px 0; scroll-margin-top: 72px; }
 .proof-copy .sub { margin: 0 auto; }
 .proof-ring { position: absolute; inset: 0; }
 /* Konumu GSAP verir (xPercent/yPercent) — CSS transform'u x/y tween'iyle çakışırdı. */
-.proof-ring img { position: absolute; left: 50%; top: 50%; width: 120px; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 10px; border: 1px solid rgba(255,255,255,.14); box-shadow: 0 20px 40px rgba(0,0,0,.5); }
-.proof-video { position: relative; z-index: 2; width: min(360px, 40svh * 9 / 16); aspect-ratio: 9 / 16; border-radius: 22px; overflow: hidden; border: 1px solid rgba(255,255,255,.14); box-shadow: 0 50px 100px rgba(0,0,0,.6), 0 0 100px rgba(255,59,20,.2); background: var(--panel); }
+.proof-ring img { position: absolute; left: 50%; top: 50%; width: 120px; height: auto; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 10px; border: 1px solid rgba(255,255,255,.14); box-shadow: 0 20px 40px rgba(0,0,0,.5); }
+.proof-video { position: relative; z-index: 2; padding: 0; color: inherit; cursor: pointer; width: min(360px, 40svh * 9 / 16); aspect-ratio: 9 / 16; border-radius: 22px; overflow: hidden; border: 1px solid rgba(255,255,255,.14); box-shadow: 0 50px 100px rgba(0,0,0,.6), 0 0 100px rgba(255,59,20,.2); background: var(--panel); }
 .proof-video video { width: 100%; height: 100%; object-fit: cover; }
 @media (max-width: 767px) {
   .proof { padding: 80px 0; }

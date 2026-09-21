@@ -33,7 +33,8 @@
     "proof": {
       "label": "Proof",
       "title": "8 photos. 30 seconds. One film.",
-      "sub": "Shot on a phone. Rendered by Carcine."
+      "sub": "Shot on a phone. Rendered by Carcine.",
+      "play": "Play the film"
     },
     "templates": {
       "label": "Templates",
@@ -130,7 +131,8 @@
     "proof": {
       "label": "Kanıt",
       "title": "8 fotoğraf. 30 saniye. Bir film.",
-      "sub": "Telefonla çekildi. Carcine'de render edildi."
+      "sub": "Telefonla çekildi. Carcine'de render edildi.",
+      "play": "Filmi oynat"
     },
     "templates": {
       "label": "Şablonlar",

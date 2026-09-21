@@ -10,10 +10,52 @@ let reelIndex = 0;
 function readStored() { try { return localStorage.getItem(LS); } catch { return null; } }
 function writeStored(v) { try { localStorage.setItem(LS, v); } catch { /* özel pencere */ } }
 
+/* --- Yardımcılar ------------------------------------------------------- */
+
+/** Hareket kapalı mı: ?nomotion (elle deneme) ya da işletim sistemi tercihi. */
+function motionOff() {
+  return new URLSearchParams(location.search).has('nomotion')
+    || matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+/**
+ * Başlık harfleri: her karakter span, ama kelime kabuğu içinde — inline-block harfler arasında
+ * satır sonu oluşabiliyordu ("PICK A SCE / NE."). Boşluklar gerçek metin düğümü: satır yalnız orada kırılır.
+ * Metin aria-label'a taşınır, kabuk aria-hidden ile alt ağacı ekran okuyucudan gizler.
+ */
+function splitChars(el) {
+  const text = el.textContent;
+  el.setAttribute('aria-label', text);
+  el.textContent = '';
+  text.split(' ').forEach((word, w) => {
+    if (w) el.appendChild(document.createTextNode(' '));
+    const wrap = document.createElement('span');
+    wrap.className = 'word';
+    wrap.setAttribute('aria-hidden', 'true');
+    for (const ch of word) {
+      const sp = document.createElement('span');
+      sp.className = 'ch';
+      sp.textContent = ch;
+      wrap.appendChild(sp);
+    }
+    el.appendChild(wrap);
+  });
+}
+
+/** Bölüm bir ekran yaklaşınca bir kez: ağır varlıklar ancak o an iner. */
+function loadOnApproach(trigger, fn) {
+  ScrollTrigger.create({ trigger, start: 'top 150%', once: true, onEnter: fn });
+}
+
 function applyI18n() {
   const d = dict[lang];
   document.documentElement.lang = lang;
-  document.querySelectorAll('[data-i18n]').forEach((el) => { el.textContent = t(d, el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n]').forEach((el) => {
+    const txt = t(d, el.dataset.i18n);
+    el.textContent = txt;
+    // splitChars aria-label bıraktıysa dil değişiminde bayat kalmasın (data-i18n-aria/#lang sonra ezer).
+    if (el.hasAttribute('aria-label')) el.setAttribute('aria-label', txt);
+  });
   document.querySelectorAll('[data-i18n-content]').forEach((el) => { el.setAttribute('content', t(d, el.dataset.i18nContent)); });
   document.querySelectorAll('[data-i18n-aria]').forEach((el) => { el.setAttribute('aria-label', t(d, el.dataset.i18nAria)); });
   document.getElementById('lang').setAttribute('aria-label', lang === 'en' ? 'Türkçe' : 'English');
@@ -30,19 +72,22 @@ function applyI18n() {
   renderReelMeta();
 }
 
-/** Showreel etiketleri (kategori + süre) — sahne değişiminde tek başına da çağrılır. */
+/** Showreel sağ sütunu: sahne sayacı + kategori/süre çipleri — sahne değişiminde tek başına da çağrılır. */
 function renderReelMeta() {
-  const meta = document.getElementById('reel-meta');
-  if (!meta || !reelItems.length) return;
+  const chips = document.getElementById('reel-chips');
+  if (!chips || !reelItems.length) return;
   const tpl = reelItems[reelIndex];
   const cat = catalog.categories.find((c) => c.templates.includes(tpl));
-  meta.textContent = '';
+  const pad = (n) => String(n).padStart(2, '0');
+  const count = document.getElementById('reel-count');
+  if (count) count.textContent = `${pad(reelIndex + 1)} / ${pad(reelItems.length)}`;
+  chips.textContent = '';
   for (const txt of [cat ? cat.name[lang] : null, fmtDuration(tpl.duration_sec, lang)]) {
     if (!txt) continue;
     const chip = document.createElement('span');
     chip.className = 'chip';
     chip.textContent = txt;
-    meta.appendChild(chip);
+    chips.appendChild(chip);
   }
 }
 
@@ -90,27 +135,17 @@ function card(tpl, { eager = false, interactive = false } = {}) {
   return el;
 }
 
-/** Hero videosu: tek autoplay (sahip onayı, mobil dâhil); reduced-motion'da yalnız poster. */
+/** Hero videosu: tek autoplay (sahip onayı, mobil dâhil); hareket kapalıysa yalnız poster. */
 function buildHero(posterUrl) {
   const v = document.getElementById('hero-video');
   if (!v) return;
-  v.poster = posterUrl;
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (posterUrl) v.poster = posterUrl;
+  if (motionOff()) return;
   v.src = siteVideo('neon-cruise');
   v.autoplay = true;
   v.play().catch(() => {});
-}
-
-/** Başlık harfleri: her karakter span (boşluk korunur). */
-function splitChars(el) {
-  const text = el.textContent;
-  el.textContent = '';
-  for (const ch of text) {
-    const sp = document.createElement('span');
-    sp.className = 'ch';
-    sp.textContent = ch === ' ' ? '\u00a0' : ch;
-    el.appendChild(sp);
-  }
+  // Bağlam dışı: hero videosu masaüstü/mobil ayrımı olmadan çalışır, sekme gizlenince dursun (pil).
+  document.addEventListener('visibilitychange', () => (document.hidden ? v.pause() : v.play().catch(() => {})));
 }
 
 function buildStrip() {
@@ -133,6 +168,7 @@ function buildReel() {
   items.forEach((tpl, i) => {
     const v = document.createElement('video');
     v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'none';
+    v.setAttribute('aria-hidden', 'true');
     v.poster = tpl.poster; v.dataset.src = siteVideo(tpl.slug); v.dataset.i = String(i);
     frame.appendChild(v);
     const h = document.createElement('div');
@@ -143,12 +179,6 @@ function buildReel() {
     dots.appendChild(d);
     mobile.appendChild(card(tpl, { interactive: true }));
   });
-  const yours = document.createElement('span');
-  yours.className = 'yours'; yours.dataset.i18n = 'reel.yours';
-  frame.appendChild(yours);
-  const meta = document.createElement('div');
-  meta.className = 'reel-meta'; meta.id = 'reel-meta';
-  frame.parentElement.appendChild(meta);
   return items;
 }
 
@@ -183,12 +213,17 @@ function buildProof() {
   const rd = all.find((tpl) => tpl.slug === 'race-day');
   const v = document.createElement('video');
   v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'none';
+  v.setAttribute('aria-hidden', 'true');
   if (rd) v.poster = rd.poster;
   v.dataset.src = siteVideo('race-day');
   box.appendChild(v);
+  // preload="none" olduğu için ilk tıkta indirmeyi de açmak gerekir; play() reddedilirse canplay'i bekle.
+  const start = () => v.play().catch(() => {
+    v.addEventListener('canplay', () => v.play().catch(() => {}), { once: true });
+  });
   box.addEventListener('click', () => {
-    if (!v.src) v.src = v.dataset.src;
-    if (v.paused) v.play().catch(() => {}); else v.pause();
+    if (!v.src) { v.src = v.dataset.src; v.preload = 'auto'; }
+    if (v.paused) start(); else v.pause();
   });
 }
 
@@ -260,6 +295,7 @@ async function main() {
     fetch('assets/templates.json').then((r) => r.json()),
   ]);
   dict = i18n; catalog = cat;
+  if (new URLSearchParams(location.search).has('nomotion')) document.documentElement.classList.add('nomotion');
   lang = pickLang({ query: location.search, stored: readStored(), navigatorLang: navigator.language });
   const picks = buildStrip();
   reelItems = buildReel();
@@ -277,8 +313,7 @@ async function main() {
 /** GSAP kancası: masaüstü + hareket kısıtlaması yoksa; matchMedia sorgu dışına çıkınca her şeyi geri alır. */
 function initMotion() {
   if (!window.gsap) return;
-  // ?nomotion: hareketsiz statik durumu tarayıcıda denemek için (reduced-motion ile aynı yüzey).
-  if (new URLSearchParams(location.search).has('nomotion')) return;
+  if (motionOff()) return;
   gsap.registerPlugin(ScrollTrigger);
   gsap.matchMedia().add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
     // Dinleyiciler de sorgu dışına çıkınca kalkar (tween'leri matchMedia kendi geri alır).
@@ -296,7 +331,21 @@ function initMotion() {
     motionSelfie();
     // Pin-spacer'lar eklendikten sonra tek toplu ölçüm.
     ScrollTrigger.refresh();
-    return () => ctrl.abort();
+    // Sekme arka planda: bölüm videoları dursun, geri gelince yalnız duranlar devam etsin (pil).
+    const pausedByTab = new Set();
+    document.addEventListener('visibilitychange', () => {
+      const vids = document.querySelectorAll('#reel-frame video, #proof-video video');
+      if (document.hidden) {
+        vids.forEach((v) => { if (!v.paused) { pausedByTab.add(v); v.pause(); } });
+      } else {
+        pausedByTab.forEach((v) => v.play().catch(() => {}));
+        pausedByTab.clear();
+      }
+    }, { signal: ctrl.signal });
+    return () => {
+      ctrl.abort();
+      document.querySelectorAll('#reel-frame video, #proof-video video').forEach((v) => v.pause());
+    };
   });
 }
 
@@ -313,7 +362,11 @@ function initLenis(signal) {
   const tick = (time) => lenis.raf(time * 1000);
   gsap.ticker.add(tick);
   gsap.ticker.lagSmoothing(0);
-  signal?.addEventListener('abort', () => { gsap.ticker.remove(tick); lenis.destroy(); });
+  signal?.addEventListener('abort', () => {
+    gsap.ticker.remove(tick);
+    gsap.ticker.lagSmoothing(500, 33); // GSAP varsayılanı
+    lenis.destroy();
+  });
 }
 
 /** Hero başlığı: harf harf yükselir (yükleme anı, bir kez). */
@@ -327,6 +380,7 @@ function motionHeroTitle() {
 function initCursor(signal) {
   const c = document.getElementById('cursor');
   if (!c || !matchMedia('(pointer: fine)').matches) return;
+  c.classList.add('is-live');
   gsap.set(c, { xPercent: -50, yPercent: -50 });
   // quickTo kanonik ad ister: 'x'/'y'.
   const x = gsap.quickTo(c, 'x', { duration: .18, ease: 'power3' });
@@ -350,8 +404,6 @@ function motionStrip(signal) {
   // Sekme arka planda: döngü dursun (pil).
   document.addEventListener('visibilitychange', () => (document.hidden ? loop.pause() : loop.resume()), { signal });
 }
-
-main().catch((e) => console.error('site init', e));
 
 /** Pin'li bölüm: scrub ile 3 adım sırayla belirir, telefon ekranı adım görselini değiştirir, telefon yavaş kayar. */
 function motionHow() {
@@ -414,8 +466,9 @@ function motionReel() {
   const titles = gsap.utils.toArray('#reel-titles .rt');
   const dots = gsap.utils.toArray('#reel-dots li');
   const n = videos.length;
-  // mp4'ler bölüm bir ekran yaklaşınca iner (açılışta yalnız hero videosu).
-  ScrollTrigger.create({ trigger: '.reel', start: 'top 150%', once: true, onEnter: () => videos.forEach((v) => { v.src = v.dataset.src; }) });
+  // Yalnız gereken sahne iner: yaklaşınca ilk sahne, sonrakiler sırası gelince (+1 önden).
+  const srcFor = (i) => { const v = videos[i]; if (v && !v.src) v.src = v.dataset.src; };
+  loadOnApproach('.reel', () => srcFor(0));
   gsap.set(videos[0], { opacity: 1 });
   gsap.set(titles[0], { opacity: 1 });
   let active = 0;
@@ -428,7 +481,9 @@ function motionReel() {
     dots[active].classList.remove('is-on');
     dots[i].classList.add('is-on');
     videos[active].pause();
+    srcFor(i);
     videos[i].play().catch(() => {});
+    srcFor(i + 1);
     active = i;
     reelIndex = i;
     // Yalnız etiketler: applyI18n bütün [data-i18n] metnini yeniden yazar, başlık harflerini siler.
@@ -449,7 +504,7 @@ function motionProof() {
   const imgs = gsap.utils.toArray('#proof-ring img');
   const v = document.querySelector('#proof-video video');
   if (!imgs.length || !v) return;
-  ScrollTrigger.create({ trigger: '.proof', start: 'top 150%', once: true, onEnter: () => { v.src = v.dataset.src; } });
+  loadOnApproach('.proof', () => { if (!v.src) v.src = v.dataset.src; });
   const rx = () => Math.min(innerWidth * .38, 520);
   const ry = () => Math.min(innerHeight * .34, 300);
   gsap.set(imgs, { xPercent: -50, yPercent: -50 });
@@ -457,7 +512,10 @@ function motionProof() {
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: '.proof', start: 'top top', end: '+=250%', pin: '.proof-stage', scrub: .5, invalidateOnRefresh: true,
-      onUpdate: (self) => { if (self.progress > .6) v.play().catch(() => {}); else v.pause(); },
+      onUpdate: (self) => {
+        if (self.progress > .6) { if (v.paused) v.play().catch(() => {}); }
+        else if (!v.paused) v.pause();
+      },
     },
   });
   imgs.forEach((img, i) => {
@@ -479,3 +537,5 @@ function motionHeadings() {
     });
   });
 }
+
+main().catch((e) => console.error('site init', e));
