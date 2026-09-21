@@ -50,6 +50,8 @@ function loadOnApproach(trigger, fn) {
 function applyI18n() {
   const d = dict[lang];
   document.documentElement.lang = lang;
+  // i18n.json inmediyse HTML'deki yedek metinler yerinde kalsın (anahtar adları yazılmasın).
+  if (!d) { renderReelMeta(); return; }
   document.querySelectorAll('[data-i18n]').forEach((el) => {
     const txt = t(d, el.dataset.i18n);
     el.textContent = txt;
@@ -117,20 +119,30 @@ function card(tpl, { eager = false, interactive = false } = {}) {
   name.dataset.nameTr = tpl.name.tr;
 
   el.append(img, dur, name);
-  // Hover'da oynat: mp4 ancak o an indirilir (spec §4).
+  // Hover'da oynat: 200 ms sürekli bekleme şart — şeridin üstünden hızlı geçmek mp4 indirmesin.
+  let dwell = 0;
   el.addEventListener('mouseenter', () => {
-    let v = el.querySelector('video');
-    if (!v) {
-      v = document.createElement('video');
-      v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'none';
-      v.src = tpl.video;
-      el.appendChild(v);
-    }
-    v.play().then(() => el.classList.add('is-playing')).catch(() => {});
+    clearTimeout(dwell);
+    dwell = setTimeout(() => {
+      let v = el.querySelector('video');
+      if (!v) {
+        v = document.createElement('video');
+        v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'auto';
+        v.setAttribute('aria-hidden', 'true');
+        v.src = siteVideo(tpl.slug); // web boyutu (~1,2 MB), tam render değil
+        el.appendChild(v);
+      }
+      // play() taze src'de reddedilebiliyor (proof videosundaki desen): bir kez canplay'de tekrar dene.
+      const go = () => v.play().then(() => el.classList.add('is-playing'));
+      go().catch(() => { v.addEventListener('canplay', () => go().catch(() => {}), { once: true }); });
+    }, 200);
   });
   el.addEventListener('mouseleave', () => {
+    clearTimeout(dwell);
     const v = el.querySelector('video');
-    if (v) { v.pause(); el.classList.remove('is-playing'); }
+    // src'yi bırakıp düğümü silmek indirme tamponunu da serbest bırakır.
+    if (v) { v.pause(); v.removeAttribute('src'); v.load(); v.remove(); }
+    el.classList.remove('is-playing');
   });
   if (interactive) el.addEventListener('click', () => openLightbox(tpl));
   return el;
@@ -146,7 +158,11 @@ function buildHero(posterUrl) {
   v.autoplay = true;
   v.play().catch(() => {});
   // Bağlam dışı: hero videosu masaüstü/mobil ayrımı olmadan çalışır, sekme gizlenince dursun (pil).
-  document.addEventListener('visibilitychange', () => (document.hidden ? v.pause() : v.play().catch(() => {})));
+  let wasPlaying = false;
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { wasPlaying = !v.paused; v.pause(); }
+    else if (wasPlaying) v.play().catch(() => {});
+  });
 }
 
 function buildStrip() {
@@ -243,7 +259,7 @@ function buildShowcase() {
   // 3 geniş (2×2 = 4 hücre) + 12 tek hücre = 24 hücre = 6 sütun × 4 satır, deliksiz.
   const { wide, rest } = showcasePicks(catalog, FEATURED_SLUGS, 15);
   const groups = [4, 4, 4].slice(0, wide.length);
-  if (wide.length < 3) console.warn('carcine: vitrin 3 geniş kart bekliyor, bulunan', wide.length);
+  if (catalog.categories.length && wide.length < 3) console.warn('carcine: vitrin 3 geniş kart bekliyor, bulunan', wide.length);
   const order = [];
   let k = 0;
   wide.forEach((tpl, i) => {
@@ -273,7 +289,7 @@ function buildShowcase() {
 const lb = document.getElementById('lightbox');
 const lbVideo = document.getElementById('lightbox-video');
 function openLightbox(tpl) {
-  lbVideo.src = tpl.video;
+  lbVideo.src = siteVideo(tpl.slug);
   document.getElementById('lightbox-name').textContent = tpl.name[lang];
   lb.showModal();
   lbVideo.play().catch(() => {});
@@ -291,11 +307,16 @@ document.getElementById('lang').addEventListener('click', () => {
 });
 
 async function main() {
-  const [i18n, cat] = await Promise.all([
-    fetch('assets/i18n.json').then((r) => r.json()),
-    fetch('assets/templates.json').then((r) => r.json()),
+  // Tek dosyanın düşmesi sayfanın tamamını götürmesin: her biri ayrı ayrı değerlendirilir.
+  const okJson = (r) => { if (!r.ok) throw new Error(`${r.status} ${r.url}`); return r.json(); };
+  const [i18nR, catR] = await Promise.allSettled([
+    fetch('assets/i18n.json').then(okJson),
+    fetch('assets/templates.json').then(okJson),
   ]);
-  dict = i18n; catalog = cat;
+  if (i18nR.status === 'fulfilled') dict = i18nR.value;
+  else console.error('carcine: i18n.json yüklenemedi — HTML yedek metinleri kalıyor', i18nR.reason);
+  if (catR.status === 'fulfilled') catalog = catR.value;
+  else console.error('carcine: templates.json yüklenemedi — şablon bölümleri boş', catR.reason);
   if (new URLSearchParams(location.search).has('nomotion')) document.documentElement.classList.add('nomotion');
   lang = pickLang({ query: location.search, stored: readStored(), navigatorLang: navigator.language });
   const picks = buildStrip();
