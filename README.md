@@ -40,6 +40,9 @@ Damga `assets/core.js` içindeki `SITE_STAMP`; yeni yükleme yapınca orayı da 
 | `thumb/<slug>.<damga>.jpg` (kart küçük resmi) | aynı önizleme karesi | `ffmpeg -i in.jpg -vf scale=360:-2 -q:v 5 out.jpg` |
 | `jag/angle-<0-7>.<damga>.jpg` | `car-photos` bucket (sahibin Jaguar'ı), 1280 yükseklik | — |
 
+**`assets/images/logo.svg` + `logo-mark.svg`** — carcine deposundaki `assets/lottie/logo-animation.json`
+içinden çıkarıldı (lottie-web, kare 119); kaynak-of-truth Lottie dosyasıdır, logo değişirse oradan yeniden çıkar.
+
 Hero posteri LCP adayı olduğu için `index.html` içinde **iki yerde** elle yazılı
 (`<link rel="preload" as="image">` ve `<video poster>`) — `templates.json` yenilenip neon-cruise
 poster damgası değişirse ikisini de güncelle, yoksa poster 404 döner.
