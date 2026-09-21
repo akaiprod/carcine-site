@@ -513,7 +513,7 @@ function motionReel() {
     renderReelMeta();
   };
   ScrollTrigger.create({
-    trigger: '.reel', start: 'top top', end: `+=${n * 60}%`, pin: '.reel-stage', scrub: true,
+    trigger: '.reel', start: 'top top', end: `+=${n * 80}%`, pin: '.reel-stage', scrub: true,
     onUpdate: (self) => show(Math.min(n - 1, Math.floor(self.progress * n))),
     onEnter: () => videos[active].play().catch(() => {}),
     onLeave: () => videos[active].pause(),
