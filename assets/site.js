@@ -145,6 +145,25 @@ function initMotion() {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const mobile = matchMedia('(max-width: 767px)').matches;
   if (reduce || mobile || !window.gsap) return;
+  gsap.registerPlugin(ScrollTrigger);
+  motionStrip();
+}
+
+/** Sonsuz şerit: iki kopya, xPercent -50 döngü; scroll hızı timeScale'i büyütür, sonra 1'e döner. */
+function motionStrip() {
+  const track = document.getElementById('strip');
+  const loop = gsap.to(track, { xPercent: -50, duration: 48, ease: 'none', repeat: -1 });
+  let settle;
+  ScrollTrigger.create({
+    onUpdate: (self) => {
+      const v = Math.min(Math.abs(self.getVelocity()) / 600, 5);
+      loop.timeScale(1 + v);
+      settle?.kill();
+      settle = gsap.to(loop, { timeScale: 1, duration: 1.2, ease: 'power2.out' });
+    },
+  });
+  // Sekme arka planda: döngü dursun (pil).
+  document.addEventListener('visibilitychange', () => (document.hidden ? loop.pause() : loop.play()));
 }
 
 main().catch((e) => console.error('site init', e));
