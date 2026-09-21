@@ -277,6 +277,8 @@ async function main() {
 /** GSAP kancası: masaüstü + hareket kısıtlaması yoksa; matchMedia sorgu dışına çıkınca her şeyi geri alır. */
 function initMotion() {
   if (!window.gsap) return;
+  // ?nomotion: hareketsiz statik durumu tarayıcıda denemek için (reduced-motion ile aynı yüzey).
+  if (new URLSearchParams(location.search).has('nomotion')) return;
   gsap.registerPlugin(ScrollTrigger);
   gsap.matchMedia().add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
     // Dinleyiciler de sorgu dışına çıkınca kalkar (tween'leri matchMedia kendi geri alır).
@@ -285,12 +287,15 @@ function initMotion() {
     motionHeroTitle();
     initCursor(ctrl.signal);
     motionStrip(ctrl.signal);
+    // Pin'ler belge sırasıyla kurulur: sonraki bölümün start'ı önceki pin-spacer'ı hesaba katsın.
     motionReel();
+    motionHow();
     motionProof();
     motionHeadings();
-    motionHow();
     motionShowcase(ctrl.signal);
     motionSelfie();
+    // Pin-spacer'lar eklendikten sonra tek toplu ölçüm.
+    ScrollTrigger.refresh();
     return () => ctrl.abort();
   });
 }
@@ -373,8 +378,8 @@ function motionHow() {
 function motionShowcase(signal) {
   const cards = gsap.utils.toArray('.mosaic .card');
   // fromTo: bitiş değerleri açık yazılır — 'from' ScrollTrigger yenilenmesinde başlangıcı bitiş sanıp kartları y:40'ta bırakıyor.
-  gsap.fromTo(cards, { opacity: 0, y: 40, rotateY: -18 }, {
-    opacity: 1, y: 0, rotateY: 0, stagger: .06, duration: .8, ease: 'power3.out',
+  gsap.fromTo(cards, { opacity: 0, y: 40, rotationY: -18 }, {
+    opacity: 1, y: 0, rotationY: 0, stagger: .06, duration: .8, ease: 'power3.out',
     scrollTrigger: { trigger: '.mosaic', start: 'top 80%', once: true },
   });
   cards.forEach((c) => {

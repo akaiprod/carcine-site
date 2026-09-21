@@ -157,7 +157,7 @@ section { padding: 120px 0; scroll-margin-top: 72px; }
 
 .proof { padding: 0; position: relative; }
 .proof::before { content: ''; position: absolute; inset: 0; background: radial-gradient(50% 40% at 50% 55%, rgba(255,59,20,.16), transparent 70%); pointer-events: none; }
-.proof-stage { position: relative; min-height: 100svh; display: grid; place-items: center; overflow: hidden; }
+.proof-stage { position: relative; min-height: 100svh; display: grid; place-items: center; overflow: hidden; background: var(--bg); }
 .proof-copy { position: absolute; top: 80px; left: 0; right: 0; text-align: center; z-index: 3; }
 .proof-copy .sub { margin: 0 auto; }
 .proof-ring { position: absolute; inset: 0; }
@@ -189,3 +189,17 @@ h2.big .ch { display: inline-block; }
 .nav nav a::after { content: ''; position: absolute; left: 0; right: 0; bottom: -4px; height: 1px; background: var(--brand); transform: scaleX(0); transform-origin: left; transition: transform .3s; }
 .nav nav a:hover::after { transform: scaleX(1); }
 @media (prefers-reduced-motion: reduce) { .plan:hover::before { animation: none; } .faq details p { animation: none; } }
+
+/* Hareketsiz statik durum (reduced-motion, ?nomotion, GSAP inmezse): showreel ilk sahne açık,
+   8 fotoğraf elips üstünde. GSAP satır içi stil yazdığı an bu kurallar devre dışı kalır.
+   cos()/sin() yerine 8 açık değer — Safari 16'da CSS trig yok. */
+.reel-frame video:first-of-type, .reel-titles .rt:first-child { opacity: 1; }
+.proof-ring img:nth-child(1) { transform: translate(-50%, calc(-50% - 30vh)); }
+.proof-ring img:nth-child(2) { transform: translate(calc(-50% + 26.87vw), calc(-50% - 21.21vh)); }
+.proof-ring img:nth-child(3) { transform: translate(calc(-50% + 38vw), -50%); }
+.proof-ring img:nth-child(4) { transform: translate(calc(-50% + 26.87vw), calc(-50% + 21.21vh)); }
+.proof-ring img:nth-child(5) { transform: translate(-50%, calc(-50% + 30vh)); }
+.proof-ring img:nth-child(6) { transform: translate(calc(-50% - 26.87vw), calc(-50% + 21.21vh)); }
+.proof-ring img:nth-child(7) { transform: translate(calc(-50% - 38vw), -50%); }
+.proof-ring img:nth-child(8) { transform: translate(calc(-50% - 26.87vw), calc(-50% - 21.21vh)); }
+@media (max-width: 767px) { .proof-ring img:nth-child(n) { transform: none; } }
