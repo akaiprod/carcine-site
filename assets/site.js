@@ -249,12 +249,15 @@ function buildProof() {
 // Açı sırası ve kısaltmalar uygulamanın kendi İngilizce metinleri — i18n'e girmez.
 const RING_LABELS = ['FRONT', 'FR 3/4 L', 'SIDE L', 'RR 3/4 L', 'REAR', 'RR 3/4 R', 'SIDE R', 'FR 3/4 R'];
 // Nokta elipsi; çevre çizgisi 8px dışından geçer (uygulamadaki DOT_INSET karşılığı).
-const RING = { cx: 150, cy: 320, rx: 114, ry: 70, inset: 8 };
+const RING = { cx: 150, cy: 320, rx: 124, ry: 235, inset: 8 };
 
-/** i. noktanın merkezi: 0 = sağ uç (aracın önü), uygulamadaki ringDotPositions ile aynı yön. */
+/** i. noktanın merkezi. Uygulamada burun SAĞDA ve i artarken ekranda saat yönünün TERSİNE
+ * gidilir (i=1 "FR 3/4 L" burnun sol omzudur). Sitede araç DİK duruyor (burun YUKARI), o
+ * yüzden aynı sıra 90° döndürülür: i=0 tepe, i=2 sol yan, i=4 alt, i=6 sağ yan — etiketler
+ * konumlarla aynı kalsın diye yön saat yönünün TERSİ. */
 function ringDot(i) {
-  const a = -(i / RING_LABELS.length) * 2 * Math.PI;
-  return { x: RING.cx + RING.rx * Math.cos(a), y: RING.cy + RING.ry * Math.sin(a) };
+  const a = (i / RING_LABELS.length) * 2 * Math.PI;
+  return { x: RING.cx - RING.rx * Math.sin(a), y: RING.cy - RING.ry * Math.cos(a) };
 }
 
 /** Aktif nokta + etiket. r hem CSS'ten hem attribute'tan: CSS geometri özelliği desteklenmezse attribute kalır. */
@@ -263,7 +266,7 @@ function setRingActive(i) {
   if (!host) return;
   host.querySelectorAll('.dot').forEach((d, j) => {
     d.classList.toggle('is-active', j === i);
-    d.setAttribute('r', j === i ? 9 : 6);
+    d.setAttribute('r', j === i ? 10 : 7);
   });
   const label = host.querySelector('.ring-label');
   if (label) label.textContent = RING_LABELS[i];
@@ -275,18 +278,18 @@ function buildCaptureRing() {
   if (!host) return;
   const dots = RING_LABELS.map((_, i) => {
     const p = ringDot(i);
-    return `<circle class="dot" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="6"/>`;
+    return `<circle class="dot" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="7"/>`;
   }).join('');
-  // Araç görseli kaynakta burun YUKARI (446×850); halkada burun SAĞDA → merkez etrafında 90°.
-  const carW = 79, carH = 150; // görünen genişlik (döndükten sonra) 150 px
+  // Araç görseli kaynakta burun YUKARI (446×850) ve sitede öyle kalır — döndürme YOK.
+  const carH = 320, carW = Math.round(carH * 446 / 850); // 168×320, oran korunur
   host.innerHTML = `<svg viewBox="0 0 300 640" preserveAspectRatio="xMidYMid slice" aria-hidden="true">`
     + `<rect width="300" height="640" fill="var(--bg)"/>`
     + `<ellipse cx="${RING.cx}" cy="${RING.cy}" rx="${RING.rx + RING.inset}" ry="${RING.ry + RING.inset}" fill="none" stroke="var(--line)" stroke-width="1"/>`
     + `<image href="assets/images/step-capture.png" width="${carW}" height="${carH}"`
-    + ` x="${RING.cx - carW / 2}" y="${RING.cy - carH / 2}" transform="rotate(90 ${RING.cx} ${RING.cy})"/>`
+    + ` x="${RING.cx - carW / 2}" y="${RING.cy - carH / 2}"/>`
     + dots
-    + `<text class="ring-label" x="30" y="205">${RING_LABELS[0]}</text>`
-    + `<text class="ring-count" x="270" y="445" text-anchor="end">8 OF 8</text>`
+    + `<text class="ring-label" x="24" y="48">${RING_LABELS[0]}</text>`
+    + `<text class="ring-count" x="276" y="610" text-anchor="end">8 OF 8</text>`
     + `</svg>`;
   setRingActive(RING_LABELS.length - 1); // hareketsiz varsayılan: tur tamam
 }
