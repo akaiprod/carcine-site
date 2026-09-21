@@ -49,7 +49,7 @@ h2.big { font-size: clamp(40px, 6vw, 72px); margin-bottom: 18px; }
 .card .name { position: absolute; left: 0; right: 0; bottom: 0; padding: 26px 10px 10px; background: linear-gradient(180deg, rgba(10, 11, 13, 0) 0%, rgba(10, 11, 13, .85) 100%); font: italic 800 17px/1.1 var(--display); text-transform: uppercase; }
 .card .dur { position: absolute; top: 8px; left: 8px; font: 500 10px/1 var(--mono); letter-spacing: .1em; background: rgba(10, 11, 13, .7); padding: 5px 7px; border-radius: 6px; }
 
-section { padding: 120px 0; }
+section { padding: 120px 0; scroll-margin-top: 72px; }
 .how { background: repeating-linear-gradient(125deg, #0E1116 0 7px, #0A0B0D 7px 14px); }
 .how-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; align-items: center; }
 .steps { list-style: none; margin: 32px 0 0; padding: 0; display: grid; gap: 28px; }
@@ -64,7 +64,8 @@ section { padding: 120px 0; }
 .shot.is-on { opacity: 1; }
 
 .rail { display: flex; gap: 14px; padding: 12px var(--gutter); width: max-content; will-change: transform; }
-.rail-wrap { overflow: hidden; }
+.rail-wrap { overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
+.rail-wrap::-webkit-scrollbar { display: none; }
 .rail-title { font: 500 12px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); padding: 22px var(--gutter) 0; max-width: var(--wrap); margin: 0 auto; }
 .rail .card { width: 190px; cursor: pointer; }
 .rail .card:focus-visible { outline: 2px solid var(--cyan); }
@@ -98,10 +99,10 @@ section { padding: 120px 0; }
 .foot .ai { margin: 0 0 6px; }
 .foot .copy { margin: 0; }
 
-.lightbox { background: transparent; border: 0; padding: 0; max-width: min(92vw, 420px); }
+.lightbox { background: transparent; border: 0; padding: 0; max-width: min(92vw, 420px); max-height: 92svh; }
 .lightbox::backdrop { background: rgba(10, 11, 13, .92); }
-.lightbox video { width: 100%; aspect-ratio: 9 / 16; border-radius: var(--r-card); background: #000; }
-.lightbox .close { position: absolute; top: -44px; right: 0; background: none; border: 0; color: #fff; font-size: 32px; cursor: pointer; }
+.lightbox video { width: 100%; aspect-ratio: 9 / 16; max-height: calc(92svh - 56px); border-radius: var(--r-card); background: #000; }
+.lightbox .close { position: absolute; top: 8px; right: 8px; z-index: 1; width: 40px; height: 40px; border-radius: 20px; background: rgba(10, 11, 13, .7); color: #fff; font-size: 26px; line-height: 1; border: 0; cursor: pointer; }
 .lightbox-name { font: italic 800 22px/1 var(--display); text-transform: uppercase; margin: 12px 0 0; color: var(--text); }
 
 @media (max-width: 767px) {

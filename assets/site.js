@@ -31,9 +31,27 @@ function card(tpl, { eager = false, interactive = false } = {}) {
   const el = document.createElement(interactive ? 'button' : 'div');
   el.className = 'card';
   if (interactive) { el.type = 'button'; el.setAttribute('aria-label', tpl.name[lang]); }
-  el.dataset.video = tpl.video;
-  el.dataset.slug = tpl.slug;
-  el.innerHTML = `<img src="${tpl.poster}" alt="" width="768" height="1365" ${eager ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"'} decoding="async"><span class="dur" data-sec="${tpl.duration_sec}"></span><span class="name" data-name-en="${tpl.name.en}" data-name-tr="${tpl.name.tr}"></span>`;
+
+  const img = document.createElement('img');
+  img.src = tpl.poster;
+  img.alt = '';
+  img.setAttribute('width', '768');
+  img.setAttribute('height', '1365');
+  img.setAttribute('loading', eager ? 'eager' : 'lazy');
+  if (eager) img.setAttribute('fetchpriority', 'high');
+  img.setAttribute('decoding', 'async');
+
+  const dur = document.createElement('span');
+  dur.className = 'dur';
+  dur.dataset.sec = tpl.duration_sec;
+
+  // Metinleri applyI18n yazar (dil değişiminde tek yerden).
+  const name = document.createElement('span');
+  name.className = 'name';
+  name.dataset.nameEn = tpl.name.en;
+  name.dataset.nameTr = tpl.name.tr;
+
+  el.append(img, dur, name);
   // Hover'da oynat: mp4 ancak o an indirilir (spec §4).
   el.addEventListener('mouseenter', () => {
     let v = el.querySelector('video');
@@ -58,12 +76,17 @@ function buildStrip() {
   const picks = stripPicks(catalog, 12);
   // İki kopya: sonsuz döngü için xPercent -50 (Görev 5).
   for (const pass of [0, 1]) picks.forEach((tpl, i) => track.appendChild(card(tpl, { eager: pass === 0 && i < 4 })));
-  const first = picks[0];
-  if (first) {
-    document.getElementById('shot-result').src = first.poster;
-    document.getElementById('selfie-bg').style.backgroundImage = `url("${first.poster}")`;
-  }
-  document.querySelector('.shot[data-step="1"]').classList.add('is-on');
+  return picks;
+}
+
+/** GSAP'siz sayfada da dolu görünsün: sonuç karesi, selfie fonu, ilk adım görseli. */
+function seedStills(first) {
+  const shot = document.getElementById('shot-result');
+  if (shot) shot.src = first.poster;
+  const bg = document.getElementById('selfie-bg');
+  if (bg) bg.style.backgroundImage = `url("${first.poster}")`;
+  const step1 = document.querySelector('.shot[data-step="1"]');
+  if (step1) step1.classList.add('is-on');
 }
 
 function buildRails() {
@@ -91,10 +114,11 @@ function openLightbox(tpl) {
   lb.showModal();
   lbVideo.play().catch(() => {});
 }
-function closeLightbox() { lbVideo.pause(); lbVideo.removeAttribute('src'); lbVideo.load(); lb.close(); }
+function closeLightbox() { lb.close(); }
 document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
 lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
-lb.addEventListener('close', () => { lbVideo.pause(); });
+// Tek teardown: Escape de düğme de 'close' olayından geçer.
+lb.addEventListener('close', () => { lbVideo.pause(); lbVideo.removeAttribute('src'); lbVideo.load(); });
 
 document.getElementById('lang').addEventListener('click', () => {
   lang = lang === 'en' ? 'tr' : 'en';
@@ -109,7 +133,8 @@ async function main() {
   ]);
   dict = i18n; catalog = cat;
   lang = pickLang({ query: location.search, stored: readStored(), navigatorLang: navigator.language });
-  buildStrip();
+  const picks = buildStrip();
+  if (picks[0]) seedStills(picks[0]);
   buildRails();
   applyI18n();
   initMotion();
@@ -122,4 +147,4 @@ function initMotion() {
   if (reduce || mobile || !window.gsap) return;
 }
 
-main();
+main().catch((e) => console.error('site init', e));
