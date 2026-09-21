@@ -107,6 +107,7 @@ section { padding: 120px 0; scroll-margin-top: 72px; }
 
 @media (max-width: 767px) {
   .nav nav a { display: none; }
+  .grain { display: none; } /* mobilde tam ekran overlay + animasyon pahalı */
   section { padding: 80px 0; }
   .how-grid { grid-template-columns: 1fr; }
   .plans, .packs { grid-template-columns: 1fr; }

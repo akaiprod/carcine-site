@@ -62,3 +62,5 @@ export const SITE_STAMP = '202609211305';
 export const REEL_SLUGS = ['neon-cruise', 'race-day', 'tunnel-pass', 'commercial', 'midnight-run'];
 export const siteVideo = (slug) => `${SITE_BASE}${slug}.${SITE_STAMP}.mp4`;
 export const jagPhoto = (i) => `${SITE_BASE}jag/angle-${i}.${SITE_STAMP}.jpg`;
+/** Kart küçük resmi: 360×640 (~25 KB) — kartlar ekranda en fazla 220 px, tam poster israf. */
+export const siteThumb = (slug) => `${SITE_BASE}thumb/${slug}.${SITE_STAMP}.jpg`;

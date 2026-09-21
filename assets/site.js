@@ -1,4 +1,4 @@
-import { FEATURED_SLUGS, REEL_SLUGS, STRIP_COUNT, fmtDuration, jagPhoto, pickLang, showcasePicks, siteVideo, stripPicks, t } from './core.js';
+import { FEATURED_SLUGS, REEL_SLUGS, STRIP_COUNT, fmtDuration, jagPhoto, pickLang, showcasePicks, siteThumb, siteVideo, stripPicks, t } from './core.js';
 
 const LS = 'carcine.lang';
 let lang = 'en';
@@ -97,10 +97,11 @@ function card(tpl, { eager = false, interactive = false } = {}) {
   if (interactive) { el.type = 'button'; el.setAttribute('aria-label', tpl.name[lang]); }
 
   const img = document.createElement('img');
-  img.src = tpl.poster;
+  // Kart ekranda en fazla ~220 px: 360×640 küçük resim (~25 KB), tam poster değil.
+  img.src = siteThumb(tpl.slug);
   img.alt = '';
-  img.setAttribute('width', '768');
-  img.setAttribute('height', '1365');
+  img.setAttribute('width', '360');
+  img.setAttribute('height', '640');
   img.setAttribute('loading', eager ? 'eager' : 'lazy');
   if (eager) img.setAttribute('fetchpriority', 'high');
   img.setAttribute('decoding', 'async');
