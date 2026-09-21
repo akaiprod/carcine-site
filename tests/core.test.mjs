@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
-import { FEATURED_SLUGS, STRIP_COUNT, fmtDuration, pickLang, showcasePicks, stripPicks, t } from '../assets/core.js';
+import { FEATURED_SLUGS, REEL_SLUGS, SITE_BASE, SITE_STAMP, STRIP_COUNT, fmtDuration, jagPhoto, pickLang, showcasePicks, siteVideo, stripPicks, t } from '../assets/core.js';
 
 test('pickLang: ?lang > localStorage > navigator > en', () => {
   assert.equal(pickLang({ query: '?lang=tr', stored: 'en', navigatorLang: 'en-US' }), 'tr');
@@ -79,4 +79,12 @@ test('showcasePicks: seçki hero şeridindeki kartlardan farklı (geniş kartlar
   assert.equal(rest.length, 9);
   for (const tpl of rest) assert.equal(strip.has(tpl.slug), false, tpl.slug);
   assert.equal(new Set([...wide, ...rest].map((x) => x.slug)).size, 12);
+});
+
+test('site varlık URL\'leri damgalı public bucket yolunda', () => {
+  assert.equal(SITE_BASE, 'https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/site/v1/');
+  assert.match(SITE_STAMP, /^\d{12}$/);
+  assert.equal(siteVideo('neon-cruise'), `${SITE_BASE}neon-cruise.${SITE_STAMP}.mp4`);
+  assert.equal(jagPhoto(3), `${SITE_BASE}jag/angle-3.${SITE_STAMP}.jpg`);
+  assert.deepEqual(REEL_SLUGS, ['neon-cruise', 'race-day', 'tunnel-pass', 'commercial', 'midnight-run']);
 });

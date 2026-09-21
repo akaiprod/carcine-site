@@ -55,3 +55,10 @@ export function showcasePicks(catalog, featured, n, exclude = stripPicks(catalog
   const rest = all.filter((t2) => !wideSlugs.has(t2.slug) && !skip.has(t2.slug)).slice(0, n - wide.length);
   return { wide, rest };
 }
+
+/** v2 site varlıkları: web boyutu mp4 + Jaguar açı fotoğrafları, public bucket, damgalı (önbellek kırıcı). */
+export const SITE_BASE = 'https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/site/v1/';
+export const SITE_STAMP = '202609211305';
+export const REEL_SLUGS = ['neon-cruise', 'race-day', 'tunnel-pass', 'commercial', 'midnight-run'];
+export const siteVideo = (slug) => `${SITE_BASE}${slug}.${SITE_STAMP}.mp4`;
+export const jagPhoto = (i) => `${SITE_BASE}jag/angle-${i}.${SITE_STAMP}.jpg`;

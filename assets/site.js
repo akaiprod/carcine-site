@@ -1,4 +1,4 @@
-import { FEATURED_SLUGS, STRIP_COUNT, fmtDuration, pickLang, showcasePicks, stripPicks, t } from './core.js';
+import { FEATURED_SLUGS, STRIP_COUNT, fmtDuration, pickLang, showcasePicks, siteVideo, stripPicks, t } from './core.js';
 
 const LS = 'carcine.lang';
 let lang = 'en';
@@ -69,6 +69,29 @@ function card(tpl, { eager = false, interactive = false } = {}) {
   });
   if (interactive) el.addEventListener('click', () => openLightbox(tpl));
   return el;
+}
+
+/** Hero videosu: tek autoplay (sahip onayı, mobil dâhil); reduced-motion'da yalnız poster. */
+function buildHero(posterUrl) {
+  const v = document.getElementById('hero-video');
+  if (!v) return;
+  v.poster = posterUrl;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  v.src = siteVideo('neon-cruise');
+  v.autoplay = true;
+  v.play().catch(() => {});
+}
+
+/** Başlık harfleri: her karakter span (boşluk korunur). */
+function splitChars(el) {
+  const text = el.textContent;
+  el.textContent = '';
+  for (const ch of text) {
+    const sp = document.createElement('span');
+    sp.className = 'ch';
+    sp.textContent = ch === ' ' ? '\u00a0' : ch;
+    el.appendChild(sp);
+  }
 }
 
 function buildStrip() {
@@ -153,6 +176,8 @@ async function main() {
   const still = featured || picks[0];
   if (still) seedStills(still);
   applyI18n();
+  const neon = catalog.categories.flatMap((c) => c.templates).find((tpl) => tpl.slug === 'neon-cruise');
+  buildHero(neon ? neon.poster : '');
   initMotion();
 }
 
@@ -163,6 +188,9 @@ function initMotion() {
   gsap.matchMedia().add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
     // Dinleyiciler de sorgu dışına çıkınca kalkar (tween'leri matchMedia kendi geri alır).
     const ctrl = new AbortController();
+    initLenis(ctrl.signal);
+    motionHeroTitle();
+    initCursor(ctrl.signal);
     motionStrip(ctrl.signal);
     motionHow();
     motionShowcase(ctrl.signal);
@@ -174,6 +202,36 @@ function initMotion() {
 /** Scroll'la sürülen katman kayması (parallax). */
 function parallax(el, yPercent, trigger) {
   gsap.to(el, { yPercent, ease: 'none', scrollTrigger: { trigger, start: 'top bottom', end: 'bottom top', scrub: true } });
+}
+
+/** Lenis: GSAP ticker'a bağlı yumuşak scroll; sorgu dışına çıkınca ticker'dan da düşer. */
+function initLenis(signal) {
+  if (!window.Lenis) return;
+  const lenis = new Lenis({ lerp: .09, smoothWheel: true });
+  lenis.on('scroll', ScrollTrigger.update);
+  const tick = (time) => lenis.raf(time * 1000);
+  gsap.ticker.add(tick);
+  gsap.ticker.lagSmoothing(0);
+  signal?.addEventListener('abort', () => { gsap.ticker.remove(tick); lenis.destroy(); });
+}
+
+/** Hero başlığı: harf harf yükselir (yükleme anı, bir kez). */
+function motionHeroTitle() {
+  document.querySelectorAll('.hero h1.big [data-i18n]').forEach(splitChars);
+  gsap.from('.hero h1.big .ch', { yPercent: 110, opacity: 0, rotationX: -40, stagger: .025, duration: .9, ease: 'power4.out', delay: .1 });
+  gsap.from('.hero .lab, .hero .hero-row, .hero .stores', { y: 20, opacity: 0, stagger: .12, duration: .8, ease: 'power3.out', delay: .5 });
+}
+
+/** Özel imleç: nokta fareyi izler, kart/videoda "▶" olur (yalnız pointer: fine). */
+function initCursor(signal) {
+  const c = document.getElementById('cursor');
+  if (!c || !matchMedia('(pointer: fine)').matches) return;
+  gsap.set(c, { xPercent: -50, yPercent: -50 });
+  // quickTo kanonik ad ister: 'x'/'y'.
+  const x = gsap.quickTo(c, 'x', { duration: .18, ease: 'power3' });
+  const y = gsap.quickTo(c, 'y', { duration: .18, ease: 'power3' });
+  window.addEventListener('pointermove', (e) => { x(e.clientX); y(e.clientY); }, { passive: true, signal });
+  document.addEventListener('pointerover', (e) => c.classList.toggle('is-play', !!e.target.closest('.card, .reel-frame, .proof-video')), { signal });
 }
 
 /** Sonsuz şerit: iki kopya, xPercent -50 döngü; scroll hızı timeScale'i büyütür, sonra 1'e döner. */

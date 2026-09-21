@@ -22,6 +22,8 @@
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" id="cursor" aria-hidden="true"></div>
 <a class="skip" href="#top" data-i18n="nav.skip">Skip to content</a>
 
 <header class="nav">
@@ -36,6 +38,10 @@
 
 <main id="top">
   <section class="hero">
+    <div class="hero-media" aria-hidden="true">
+      <video class="hero-video" id="hero-video" muted loop playsinline preload="metadata"></video>
+      <div class="hero-shade"></div>
+    </div>
     <div class="wrap">
       <p class="lab" data-i18n="hero.label">AI car films · one shoot, dozens of scenes</p>
       <h1 class="big"><span data-i18n="hero.title1">Put your build</span><br><em data-i18n="hero.title2">in the movie.</em></h1>
@@ -158,6 +164,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" integrity="sha384-HOvlOYPIs/zjoIkWUGXkVmXsjr8GuZLV+Q+rcPwmJOVZVpvTSXQChiN4t9Euv9Vc" crossorigin="anonymous" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" integrity="sha384-P8VzCVnT9NBUkMrpcIZrJbA7EBjJvh/fJS6PmP+4nLIM284DtsImIv8D0fFjIkeh" crossorigin="anonymous" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.11/dist/lenis.min.js" integrity="sha384-kdY9hFBPoAPpxcrLihsO3APivFOxtQwSeYdzFD5CIIfLurwhdMrEHhkQxZJDkxgk" crossorigin="anonymous" defer></script>
 <script type="module" src="assets/site.js"></script>
 </body>
 </html>

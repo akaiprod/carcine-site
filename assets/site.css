@@ -114,3 +114,16 @@ section { padding: 120px 0; scroll-margin-top: 72px; }
   .mosaic .card.is-wide { grid-column: span 2; grid-row: auto; aspect-ratio: 16 / 9; }
   .strip .card:hover { transform: none; }
 }
+
+.hero-media { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+.hero-video { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; filter: saturate(1.1) contrast(1.05); }
+.hero-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,11,13,.35) 0%, rgba(10,11,13,.15) 35%, rgba(10,11,13,.75) 70%, var(--bg) 100%), radial-gradient(60% 50% at 20% 60%, rgba(255,59,20,.18), transparent 70%); }
+.hero .wrap, .hero .strip { position: relative; z-index: 1; }
+.hero h1.big .ch { display: inline-block; will-change: transform, opacity; }
+.grain { position: fixed; inset: -50%; width: 200%; height: 200%; z-index: 90; pointer-events: none; opacity: .06; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); animation: grain 1.2s steps(6) infinite; }
+@keyframes grain { 0% { transform: translate(0,0); } 20% { transform: translate(-3%,2%); } 40% { transform: translate(2%,-4%); } 60% { transform: translate(-4%,-2%); } 80% { transform: translate(3%,3%); } 100% { transform: translate(0,0); } }
+.cursor { position: fixed; left: 0; top: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--brand); z-index: 95; pointer-events: none; transition: width .25s, height .25s, background .25s; display: none; }
+.cursor.is-play { width: 56px; height: 56px; background: rgba(255,59,20,.85); }
+.cursor.is-play::after { content: '▶'; color: #fff; font: 700 16px/56px var(--body); display: block; text-align: center; padding-left: 3px; }
+@media (pointer: fine) { .cursor { display: block; } }
+@media (prefers-reduced-motion: reduce) { .grain { animation: none; } .cursor { display: none; } }
