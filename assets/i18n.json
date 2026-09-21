@@ -1,0 +1,172 @@
+{
+  "en": {
+    "meta": {
+      "title": "Carcine — Put your build in the movie",
+      "description": "Shoot your car once, pick a scene, get a 10–15 s AI-generated cinematic film with your paint, your wheels, your plate — and you at the wheel."
+    },
+    "nav": { "templates": "Templates", "pricing": "Pricing", "faq": "FAQ", "lang": "TR" },
+    "hero": {
+      "label": "AI car films · shot once, cut 36 ways",
+      "title1": "Put your build",
+      "title2": "in the movie.",
+      "sub": "8 photos, 30 seconds of your time, one cinematic film. Your paint, your wheels, your plate — and you at the wheel.",
+      "cta": "Get the app",
+      "appstore": "Download on the App Store",
+      "play": "Google Play — coming soon"
+    },
+    "how": {
+      "label": "How it works",
+      "title": "Three steps. One film.",
+      "s1t": "Shoot 8 angles",
+      "s1d": "Walk around your car with the guided ring. Front, sides, rear, details — about 30 seconds.",
+      "s2t": "Pick a scene",
+      "s2d": "36 templates across 8 categories: drift, night street, studio, track, offroad and more.",
+      "s3t": "Send it",
+      "s3d": "Your 10–15 s film lands in a couple of minutes, vertical 9:16, ready for Reels and TikTok."
+    },
+    "templates": {
+      "label": "Templates",
+      "title": "36 scenes. Your car in every one.",
+      "sub": "Tap a card to watch. All previews are AI-generated from the same eight photos of one car."
+    },
+    "selfie": {
+      "label": "You, at the wheel",
+      "title": "Add a selfie — you're driving in every shot.",
+      "sub": "One selfie puts you behind the wheel. Never a close-up, never a face swap on someone else. Your photos are deleted when you delete your car."
+    },
+    "pricing": {
+      "label": "Pricing",
+      "title": "Pay per film or go Pro.",
+      "pro": "Pro",
+      "proWeekly": "Weekly",
+      "proMonthly": "Monthly",
+      "proMonthlyBadge": "Best value",
+      "proPriceWeekly": "$6.99",
+      "proPriceMonthly": "$16.99",
+      "proPer": "per",
+      "proWeek": "week",
+      "proMonth": "month",
+      "proFeat1": "50 credits every week",
+      "proFeat2": "Priority render queue",
+      "proFeat3": "Cancel anytime",
+      "packs": "Credit packs",
+      "pack30": "30 credits",
+      "pack30d": "1 film",
+      "pack30p": "$3.99",
+      "pack150": "150 credits",
+      "pack150d": "5 films",
+      "pack150p": "$17.99",
+      "pack300": "300 credits",
+      "pack300d": "10 films",
+      "pack300p": "$27.99",
+      "note": "A 10 s film costs 20 credits, a 15 s film 30. Prices shown in USD; App Store and Google Play prices apply."
+    },
+    "faq": {
+      "label": "FAQ",
+      "title": "Questions",
+      "q1": "How many photos do I need?",
+      "a1": "Eight, taken with the in-app guide: front, front quarters, sides, rear quarters, rear. Good daylight and a clean background help.",
+      "q2": "How long does a film take?",
+      "a2": "Usually two to four minutes. You get a notification when it's ready.",
+      "q3": "Do my plate, badges and wheels stay the same?",
+      "a3": "Yes — the film is generated from your photos, so your colour, badges, wheels and plate are kept. You can also hide the plate.",
+      "q4": "What happens to my selfie?",
+      "a4": "It's used only to place you in the driver's seat of your own films and is stored privately in your account. Delete the car and it's gone.",
+      "q5": "Can I get a refund?",
+      "a5": "Purchases go through the App Store or Google Play and follow their refund rules. Credits are only spent when a film is delivered."
+    },
+    "footer": {
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "contact": "Contact",
+      "ai": "All videos on this page are AI-generated.",
+      "copy": "© 2026 Carcine"
+    },
+    "lightbox": { "close": "Close" }
+  },
+  "tr": {
+    "meta": {
+      "title": "Carcine — Arabanı filme koy",
+      "description": "Aracını bir kez çek, sahne seç, 10–15 sn'lik yapay zekâ ile üretilmiş sinematik filmini al — senin boyan, senin jantların, senin plakan ve direksiyonda sen."
+    },
+    "nav": { "templates": "Şablonlar", "pricing": "Fiyat", "faq": "SSS", "lang": "EN" },
+    "hero": {
+      "label": "Yapay zekâ araba filmleri · bir çekim, 36 sahne",
+      "title1": "Arabanı",
+      "title2": "filme koy.",
+      "sub": "8 fotoğraf, 30 saniyen, bir sinematik film. Senin boyan, senin jantların, senin plakan — ve direksiyonda sen.",
+      "cta": "Uygulamayı indir",
+      "appstore": "App Store'dan indir",
+      "play": "Google Play — çok yakında"
+    },
+    "how": {
+      "label": "Nasıl çalışır",
+      "title": "Üç adım. Bir film.",
+      "s1t": "8 açıdan çek",
+      "s1d": "Halka rehberiyle aracın etrafında dolaş. Ön, yanlar, arka, detaylar — yaklaşık 30 saniye.",
+      "s2t": "Sahne seç",
+      "s2d": "8 kategoride 36 şablon: drift, gece sokakları, stüdyo, pist, arazi ve daha fazlası.",
+      "s3t": "Gönder",
+      "s3d": "10–15 sn'lik filmin birkaç dakikada gelir; dikey 9:16, Reels ve TikTok'a hazır."
+    },
+    "templates": {
+      "label": "Şablonlar",
+      "title": "36 sahne. Her birinde senin araban.",
+      "sub": "İzlemek için karta dokun. Tüm önizlemeler tek bir aracın aynı sekiz fotoğrafından yapay zekâ ile üretildi."
+    },
+    "selfie": {
+      "label": "Direksiyonda sen",
+      "title": "Bir selfie ekle — her sahnede sen sürüyorsun.",
+      "sub": "Tek bir selfie seni direksiyona oturtur. Asla yakın plan yok, başkasının yüzü yok. Aracını sildiğinde fotoğrafların da silinir."
+    },
+    "pricing": {
+      "label": "Fiyat",
+      "title": "Film başına öde ya da Pro ol.",
+      "pro": "Pro",
+      "proWeekly": "Haftalık",
+      "proMonthly": "Aylık",
+      "proMonthlyBadge": "En avantajlı",
+      "proPriceWeekly": "₺299,99",
+      "proPriceMonthly": "₺999,99",
+      "proPer": "/",
+      "proWeek": "hafta",
+      "proMonth": "ay",
+      "proFeat1": "Her hafta 50 kredi",
+      "proFeat2": "Öncelikli render sırası",
+      "proFeat3": "İstediğin zaman iptal",
+      "packs": "Kredi paketleri",
+      "pack30": "30 kredi",
+      "pack30d": "1 film",
+      "pack30p": "₺149,99",
+      "pack150": "150 kredi",
+      "pack150d": "5 film",
+      "pack150p": "₺899,99",
+      "pack300": "300 kredi",
+      "pack300d": "10 film",
+      "pack300p": "₺1.299,99",
+      "note": "10 sn film 20 kredi, 15 sn film 30 kredi. Fiyatlar TL; App Store ve Google Play fiyatları esastır."
+    },
+    "faq": {
+      "label": "SSS",
+      "title": "Sorular",
+      "q1": "Kaç fotoğraf gerekiyor?",
+      "a1": "Sekiz; uygulama içi rehberle: ön, ön çeyrekler, yanlar, arka çeyrekler, arka. Gün ışığı ve sade arka plan işi kolaylaştırır.",
+      "q2": "Film ne kadar sürede gelir?",
+      "a2": "Genellikle iki ila dört dakika. Hazır olunca bildirim alırsın.",
+      "q3": "Plakam, amblemlerim ve jantlarım aynı kalır mı?",
+      "a3": "Evet — film senin fotoğraflarından üretilir; rengin, amblemlerin, jantların ve plakan korunur. Plakayı gizlemeyi de seçebilirsin.",
+      "q4": "Selfie'me ne olur?",
+      "a4": "Yalnızca kendi filmlerinde seni sürücü koltuğuna oturtmak için kullanılır ve hesabında özel saklanır. Aracı sil, o da silinir.",
+      "q5": "İade alabilir miyim?",
+      "a5": "Satın almalar App Store ya da Google Play üzerinden yapılır ve onların iade kurallarına tabidir. Kredi yalnızca film teslim edilince harcanır."
+    },
+    "footer": {
+      "privacy": "Gizlilik",
+      "terms": "Koşullar",
+      "contact": "İletişim",
+      "ai": "Bu sayfadaki tüm videolar yapay zekâ ile üretilmiştir.",
+      "copy": "© 2026 Carcine"
+    },
+    "lightbox": { "close": "Kapat" }
+  }
+}
