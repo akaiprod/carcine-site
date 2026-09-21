@@ -1,0 +1,437 @@
+{
+ "generatedAt": "2026-09-21T12:06:39.541Z",
+ "categories": [
+  {
+   "slug": "drift",
+   "name": {
+    "en": "Drift",
+    "tr": "Drift"
+   },
+   "templates": [
+    {
+     "slug": "night-drift-short",
+     "name": {
+      "en": "Night Drift",
+      "tr": "Gece Drifti"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/night-drift-short.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/night-drift-short.202609211100.mp4"
+    },
+    {
+     "slug": "desert-drift",
+     "name": {
+      "en": "Salt Flats Drift",
+      "tr": "Tuz Gölü Drifti"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/desert-drift.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/desert-drift.202609211100.mp4"
+    },
+    {
+     "slug": "snow-drift",
+     "name": {
+      "en": "Snow Drift",
+      "tr": "Kar Drifti"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/snow-drift.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/snow-drift.202609211100.mp4"
+    },
+    {
+     "slug": "mountain-pass",
+     "name": {
+      "en": "Mountain Pass",
+      "tr": "Dağ Virajı"
+     },
+     "duration_sec": 15,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/mountain-pass.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/mountain-pass.202609211100.mp4"
+    }
+   ]
+  },
+  {
+   "slug": "night-street",
+   "name": {
+    "en": "Night Street",
+    "tr": "Gece Sokakları"
+   },
+   "templates": [
+    {
+     "slug": "neon-cruise",
+     "name": {
+      "en": "Neon Cruise",
+      "tr": "Neon Turu"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/neon-cruise.202609211122.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/neon-cruise.202609211122.mp4"
+    },
+    {
+     "slug": "rain-city",
+     "name": {
+      "en": "Rain City",
+      "tr": "Yağmurlu Şehir"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/rain-city.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/rain-city.202609211100.mp4"
+    },
+    {
+     "slug": "garage-meet",
+     "name": {
+      "en": "Garage Meet",
+      "tr": "Garaj Buluşması"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/garage-meet.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/garage-meet.202609211100.mp4"
+    },
+    {
+     "slug": "midnight-run",
+     "name": {
+      "en": "Midnight Run",
+      "tr": "Gece Yarısı Koşusu"
+     },
+     "duration_sec": 15,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/midnight-run.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/midnight-run.202609211100.mp4"
+    }
+   ]
+  },
+  {
+   "slug": "showcase",
+   "name": {
+    "en": "Showcase",
+    "tr": "Vitrin"
+   },
+   "templates": [
+    {
+     "slug": "commercial",
+     "name": {
+      "en": "Commercial",
+      "tr": "Reklam Filmi"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/commercial.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/commercial.202609211100.mp4"
+    },
+    {
+     "slug": "golden-hour",
+     "name": {
+      "en": "Golden Hour",
+      "tr": "Altın Saat"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/golden-hour.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/golden-hour.202609211100.mp4"
+    },
+    {
+     "slug": "launch-film",
+     "name": {
+      "en": "Launch Film",
+      "tr": "Lansman Filmi"
+     },
+     "duration_sec": 15,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/launch-film.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/launch-film.202609211100.mp4"
+    }
+   ]
+  },
+  {
+   "slug": "offroad",
+   "name": {
+    "en": "Offroad",
+    "tr": "Arazi"
+   },
+   "templates": [
+    {
+     "slug": "dune-rush",
+     "name": {
+      "en": "Dune Rush",
+      "tr": "Kumul Hücumu"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/dune-rush.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/dune-rush.202609211100.mp4"
+    },
+    {
+     "slug": "forest-trail",
+     "name": {
+      "en": "Forest Trail",
+      "tr": "Orman Patikası"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/forest-trail.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/forest-trail.202609211100.mp4"
+    },
+    {
+     "slug": "snow-expedition",
+     "name": {
+      "en": "Snow Expedition",
+      "tr": "Kar Seferi"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/snow-expedition.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/snow-expedition.202609211100.mp4"
+    },
+    {
+     "slug": "canyon-run",
+     "name": {
+      "en": "Canyon Run",
+      "tr": "Kanyon Geçişi"
+     },
+     "duration_sec": 15,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/canyon-run.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/canyon-run.202609211100.mp4"
+    }
+   ]
+  },
+  {
+   "slug": "track",
+   "name": {
+    "en": "Track",
+    "tr": "Pist"
+   },
+   "templates": [
+    {
+     "slug": "pit-lane",
+     "name": {
+      "en": "Pit Lane",
+      "tr": "Pit Yolu"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/pit-lane.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/pit-lane.202609211100.mp4"
+    },
+    {
+     "slug": "circuit-attack",
+     "name": {
+      "en": "Circuit Attack",
+      "tr": "Tur Rekoru"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/circuit-attack.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/circuit-attack.202609211100.mp4"
+    },
+    {
+     "slug": "drag-race",
+     "name": {
+      "en": "Drag Race",
+      "tr": "Drag Yarışı"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/drag-race.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/drag-race.202609211100.mp4"
+    },
+    {
+     "slug": "race-day",
+     "name": {
+      "en": "Race Day",
+      "tr": "Yarış Günü"
+     },
+     "duration_sec": 15,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/race-day.202609211122.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/race-day.202609211122.mp4"
+    }
+   ]
+  },
+  {
+   "slug": "lifestyle",
+   "name": {
+    "en": "Lifestyle",
+    "tr": "Yaşam"
+   },
+   "templates": [
+    {
+     "slug": "cover-shot",
+     "name": {
+      "en": "Cover Shot",
+      "tr": "Kapak Çekimi"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/cover-shot.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/cover-shot.202609211100.mp4"
+    },
+    {
+     "slug": "retro-80s",
+     "name": {
+      "en": "Retro 80s",
+      "tr": "Retro 80'ler"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/retro-80s.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/retro-80s.202609211100.mp4"
+    },
+    {
+     "slug": "grand-arrival",
+     "name": {
+      "en": "Grand Arrival",
+      "tr": "Görkemli Varış"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/grand-arrival.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/grand-arrival.202609211100.mp4"
+    },
+    {
+     "slug": "coast-trip",
+     "name": {
+      "en": "Coast Trip",
+      "tr": "Sahil Yolu"
+     },
+     "duration_sec": 15,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/coast-trip.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/coast-trip.202609211100.mp4"
+    }
+   ]
+  },
+  {
+   "slug": "cinematic",
+   "name": {
+    "en": "Cinematic",
+    "tr": "Sinematik"
+   },
+   "templates": [
+    {
+     "slug": "tunnel-pass",
+     "name": {
+      "en": "Tunnel Pass",
+      "tr": "Tünel Geçişi"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/tunnel-pass.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/tunnel-pass.202609211100.mp4"
+    },
+    {
+     "slug": "front-chase",
+     "name": {
+      "en": "Front Chase",
+      "tr": "Önden Takip"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/front-chase.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/front-chase.202609211100.mp4"
+    },
+    {
+     "slug": "rear-chase",
+     "name": {
+      "en": "Rear Chase",
+      "tr": "Arkadan Takip"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/rear-chase.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/rear-chase.202609211100.mp4"
+    },
+    {
+     "slug": "night-pursuit",
+     "name": {
+      "en": "Night Pursuit",
+      "tr": "Gece Takip"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/night-pursuit.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/night-pursuit.202609211100.mp4"
+    },
+    {
+     "slug": "drone-climb",
+     "name": {
+      "en": "Drone Climb",
+      "tr": "Drone Yükselişi"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/drone-climb.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/drone-climb.202609211100.mp4"
+    },
+    {
+     "slug": "sunset-run",
+     "name": {
+      "en": "Sunset Run",
+      "tr": "Gün Batımı Sürüşü"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/sunset-run.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/sunset-run.202609211100.mp4"
+    },
+    {
+     "slug": "side-sweep",
+     "name": {
+      "en": "Side Sweep",
+      "tr": "Yan Geçiş"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/side-sweep.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/side-sweep.202609211100.mp4"
+    },
+    {
+     "slug": "overtake",
+     "name": {
+      "en": "Overtake",
+      "tr": "Sollama"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/overtake.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/overtake.202609211100.mp4"
+    }
+   ]
+  },
+  {
+   "slug": "studio",
+   "name": {
+    "en": "Studio",
+    "tr": "Stüdyo"
+   },
+   "templates": [
+    {
+     "slug": "studio-spin",
+     "name": {
+      "en": "Studio Spin",
+      "tr": "Stüdyo Dönüşü"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/studio-spin.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/studio-spin.202609211100.mp4"
+    },
+    {
+     "slug": "light-paint",
+     "name": {
+      "en": "Light Paint",
+      "tr": "Işık Boyama"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/light-paint.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/light-paint.202609211100.mp4"
+    },
+    {
+     "slug": "white-box",
+     "name": {
+      "en": "White Box",
+      "tr": "Beyaz Küp"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/white-box.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/white-box.202609211100.mp4"
+    },
+    {
+     "slug": "rain-studio",
+     "name": {
+      "en": "Rain Studio",
+      "tr": "Yağmur Stüdyosu"
+     },
+     "duration_sec": 10,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/rain-studio.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/rain-studio.202609211100.mp4"
+    },
+    {
+     "slug": "light-tunnel",
+     "name": {
+      "en": "Light Tunnel",
+      "tr": "Işık Tüneli"
+     },
+     "duration_sec": 15,
+     "poster": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/light-tunnel.202609211100.jpg",
+     "video": "https://aaacqrwhqiqtuouypwzq.supabase.co/storage/v1/object/public/templates/previews/v2/light-tunnel.202609211100.mp4"
+    }
+   ]
+  }
+ ]
+}
