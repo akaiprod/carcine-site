@@ -195,7 +195,7 @@ function buildMarquee() {
       track.appendChild(sp);
     });
     const m = document.createElement('span');
-    m.dataset.i18n = 'templates.more';
+    m.dataset.i18n = 'templates.more2';
     track.appendChild(m);
   }
 }
@@ -238,11 +238,11 @@ function seedStills(first) {
   if (step1) step1.classList.add('is-on');
 }
 
-/** Vitrin: 12 kartlık seçki, geniş kartlar sahibin Jaguar render'ları; kategori adları çip. */
+/** Vitrin: 15 kartlık seçki, geniş kartlar sahibin Jaguar render'ları; kategori adları çip. */
 function buildShowcase() {
-  const { wide, rest } = showcasePicks(catalog, FEATURED_SLUGS, 12);
-  // Her öbek geniş kartla başlar; öbek boyları 6 sütunluk ızgarayı deliksiz doldurur (boşluk son satırın sağında).
-  const groups = [4, 2, 3].slice(0, wide.length);
+  // 3 geniş (2×2 = 4 hücre) + 12 tek hücre = 24 hücre = 6 sütun × 4 satır, deliksiz.
+  const { wide, rest } = showcasePicks(catalog, FEATURED_SLUGS, 15);
+  const groups = [4, 4, 4].slice(0, wide.length);
   if (wide.length < 3) console.warn('carcine: vitrin 3 geniş kart bekliyor, bulunan', wide.length);
   const order = [];
   let k = 0;

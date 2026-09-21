@@ -63,22 +63,23 @@ test('showcasePicks: geniş kartlar featured sırasında, geri kalan round-robin
   assert.equal(new Set([...wide, ...rest].map((x) => x.slug)).size, 6);
 });
 
-test('showcasePicks: gerçek katalogda 3 Jaguar geniş + 9 diğer, tekrarsız', () => {
+test('showcasePicks: gerçek katalogda 3 Jaguar geniş + 12 diğer, tekrarsız', () => {
   const cat = JSON.parse(readFileSync(new URL('../assets/templates.json', import.meta.url), 'utf8'));
-  const { wide, rest } = showcasePicks(cat, FEATURED_SLUGS, 12);
+  const { wide, rest } = showcasePicks(cat, FEATURED_SLUGS, 15);
   assert.equal(wide.length, 3);
-  assert.equal(rest.length, 9);
+  // 3 geniş kart 2×2, 12 kart 1×1 → 24 hücre = 6 sütunluk ızgarada tam 4 satır (delik yok).
+  assert.equal(rest.length, 12);
   assert.deepEqual(wide.map((x) => x.slug), FEATURED_SLUGS.slice(0, 3));
-  assert.equal(new Set([...wide, ...rest].map((x) => x.slug)).size, 12);
+  assert.equal(new Set([...wide, ...rest].map((x) => x.slug)).size, 15);
 });
 
 test('showcasePicks: seçki hero şeridindeki kartlardan farklı (geniş kartlar hariç)', () => {
   const cat = JSON.parse(readFileSync(new URL('../assets/templates.json', import.meta.url), 'utf8'));
   const strip = new Set(stripPicks(cat, STRIP_COUNT).map((x) => x.slug));
-  const { wide, rest } = showcasePicks(cat, FEATURED_SLUGS, 12);
-  assert.equal(rest.length, 9);
+  const { wide, rest } = showcasePicks(cat, FEATURED_SLUGS, 15);
+  assert.equal(rest.length, 12);
   for (const tpl of rest) assert.equal(strip.has(tpl.slug), false, tpl.slug);
-  assert.equal(new Set([...wide, ...rest].map((x) => x.slug)).size, 12);
+  assert.equal(new Set([...wide, ...rest].map((x) => x.slug)).size, 15);
 });
 
 test('site varlık URL\'leri damgalı public bucket yolunda', () => {
