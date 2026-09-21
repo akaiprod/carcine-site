@@ -4,7 +4,7 @@
       "title": "Carcine — Put your build in the movie",
       "description": "Shoot your car once, pick a scene, get a 10–15 s AI-generated cinematic film with your paint, your wheels, your plate — and you at the wheel."
     },
-    "nav": { "templates": "Templates", "pricing": "Pricing", "faq": "FAQ", "lang": "TR" },
+    "nav": { "templates": "Templates", "pricing": "Pricing", "faq": "FAQ", "lang": "TR", "skip": "Skip to content" },
     "hero": {
       "label": "AI car films · one shoot, dozens of scenes",
       "title1": "Put your build",
@@ -90,7 +90,7 @@
       "title": "Carcine — Arabanı filme koy",
       "description": "Aracını bir kez çek, sahne seç, 10–15 sn'lik yapay zekâ ile üretilmiş sinematik filmini al — senin boyan, senin jantların, senin plakan ve direksiyonda sen."
     },
-    "nav": { "templates": "Şablonlar", "pricing": "Fiyat", "faq": "SSS", "lang": "EN" },
+    "nav": { "templates": "Şablonlar", "pricing": "Fiyat", "faq": "SSS", "lang": "EN", "skip": "İçeriğe geç" },
     "hero": {
       "label": "Yapay zekâ araba filmleri · bir çekim, onlarca sahne",
       "title1": "Arabanı",

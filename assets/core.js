@@ -14,6 +14,9 @@ export function t(dict, key) {
   return typeof v === 'string' ? v : key;
 }
 
+/** Hero film şeridindeki kart sayısı (vitrin de bunu dışlar). */
+export const STRIP_COUNT = 12;
+
 /** Hero film şeridi: kategoriler arasında sırayla (round-robin) en çok n şablon. */
 export function stripPicks(catalog, n) {
   const out = [];
@@ -41,10 +44,10 @@ export const FEATURED_SLUGS = ['neon-cruise', 'race-day', 'tunnel-pass', 'commer
 
 /**
  * Vitrin seçkisi: 3 geniş kart featured sırasında, kalan n-3 kart round-robin.
- * Kalanlar hem geniş kartlardan hem de hero şeridindeki 12 karttan farklı (varsayılan exclude);
+ * Kalanlar hem geniş kartlardan hem de hero şeridindeki kartlardan farklı (varsayılan exclude);
  * geniş kartlar şeritle çakışabilir (sahibin Jaguar render'ları hep geniş).
  */
-export function showcasePicks(catalog, featured, n, exclude = stripPicks(catalog, 12).map((t2) => t2.slug)) {
+export function showcasePicks(catalog, featured, n, exclude = stripPicks(catalog, STRIP_COUNT).map((t2) => t2.slug)) {
   const all = stripPicks(catalog, catalog.categories.reduce((s, c) => s + c.templates.length, 0));
   const wide = featured.map((slug) => all.find((t2) => t2.slug === slug)).filter(Boolean).slice(0, 3);
   const wideSlugs = new Set(wide.map((t2) => t2.slug));

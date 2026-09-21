@@ -1,4 +1,4 @@
-import { FEATURED_SLUGS, fmtDuration, pickLang, showcasePicks, stripPicks, t } from './core.js';
+import { FEATURED_SLUGS, STRIP_COUNT, fmtDuration, pickLang, showcasePicks, stripPicks, t } from './core.js';
 
 const LS = 'carcine.lang';
 let lang = 'en';
@@ -73,7 +73,7 @@ function card(tpl, { eager = false, interactive = false } = {}) {
 
 function buildStrip() {
   const track = document.getElementById('strip');
-  const picks = stripPicks(catalog, 12);
+  const picks = stripPicks(catalog, STRIP_COUNT);
   // İki kopya: sonsuz döngü için xPercent -50 (Görev 5).
   for (const pass of [0, 1]) picks.forEach((tpl, i) => track.appendChild(card(tpl, { eager: pass === 0 && i < 4 })));
   return picks;
@@ -93,13 +93,15 @@ function seedStills(first) {
 function buildShowcase() {
   const { wide, rest } = showcasePicks(catalog, FEATURED_SLUGS, 12);
   // Her öbek geniş kartla başlar; öbek boyları 6 sütunluk ızgarayı deliksiz doldurur (boşluk son satırın sağında).
-  const groups = [4, 2, 3];
+  const groups = [4, 2, 3].slice(0, wide.length);
+  if (wide.length < 3) console.warn('carcine: vitrin 3 geniş kart bekliyor, bulunan', wide.length);
   const order = [];
   let k = 0;
   wide.forEach((tpl, i) => {
+    const take = groups[i] ?? 0;
     order.push({ tpl, isWide: true });
-    rest.slice(k, k + groups[i]).forEach((r) => order.push({ tpl: r, isWide: false }));
-    k += groups[i];
+    rest.slice(k, k + take).forEach((r) => order.push({ tpl: r, isWide: false }));
+    k += take;
   });
   rest.slice(k).forEach((r) => order.push({ tpl: r, isWide: false }));
 
@@ -154,33 +156,40 @@ async function main() {
   initMotion();
 }
 
-/** GSAP kancası — Görev 5–7 doldurur. Reduced-motion ve <768 px: hiç animasyon. */
+/** GSAP kancası: masaüstü + hareket kısıtlaması yoksa; matchMedia sorgu dışına çıkınca her şeyi geri alır. */
 function initMotion() {
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const mobile = matchMedia('(max-width: 767px)').matches;
-  if (reduce || mobile || !window.gsap) return;
+  if (!window.gsap) return;
   gsap.registerPlugin(ScrollTrigger);
-  motionStrip();
-  motionHow();
-  motionShowcase();
-  motionSelfie();
+  gsap.matchMedia().add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
+    // Dinleyiciler de sorgu dışına çıkınca kalkar (tween'leri matchMedia kendi geri alır).
+    const ctrl = new AbortController();
+    motionStrip(ctrl.signal);
+    motionHow();
+    motionShowcase(ctrl.signal);
+    motionSelfie();
+    return () => ctrl.abort();
+  });
+}
+
+/** Scroll'la sürülen katman kayması (parallax). */
+function parallax(el, yPercent, trigger) {
+  gsap.to(el, { yPercent, ease: 'none', scrollTrigger: { trigger, start: 'top bottom', end: 'bottom top', scrub: true } });
 }
 
 /** Sonsuz şerit: iki kopya, xPercent -50 döngü; scroll hızı timeScale'i büyütür, sonra 1'e döner. */
-function motionStrip() {
+function motionStrip(signal) {
   const track = document.getElementById('strip');
   const loop = gsap.to(track, { xPercent: -50, duration: 48, ease: 'none', repeat: -1 });
-  let settle;
+  const toScale = gsap.quickTo(loop, 'timeScale', { duration: 1.2, ease: 'power2.out' });
+  const settle = gsap.delayedCall(.2, () => toScale(1)).pause();
   ScrollTrigger.create({
     onUpdate: (self) => {
-      const v = Math.min(Math.abs(self.getVelocity()) / 600, 5);
-      loop.timeScale(1 + v);
-      settle?.kill();
-      settle = gsap.to(loop, { timeScale: 1, duration: 1.2, ease: 'power2.out' });
+      toScale(1 + Math.min(Math.abs(self.getVelocity()) / 600, 5));
+      settle.restart(true);
     },
   });
   // Sekme arka planda: döngü dursun (pil).
-  document.addEventListener('visibilitychange', () => (document.hidden ? loop.pause() : loop.play()));
+  document.addEventListener('visibilitychange', () => (document.hidden ? loop.pause() : loop.resume()), { signal });
 }
 
 main().catch((e) => console.error('site init', e));
@@ -192,18 +201,22 @@ function motionHow() {
   const shots = gsap.utils.toArray('.shot');
   gsap.set(steps, { opacity: .25, y: 24 });
   const tl = gsap.timeline({
-    scrollTrigger: { trigger: section, start: 'top top', end: '+=180%', pin: true, scrub: .6 },
+    scrollTrigger: { trigger: section, start: 'top 72px', end: '+=180%', pin: true, scrub: .6 },
+    // Adım görseli ilerlemeden türetilir: ileri/geri atlayınca da doğru kare açık kalır.
+    onUpdate: () => {
+      const i = Math.min(steps.length - 1, Math.floor(tl.progress() * steps.length));
+      shots.forEach((img, j) => img.classList.toggle('is-on', j === i));
+    },
   });
   steps.forEach((s, i) => {
-    tl.to(s, { opacity: 1, y: 0, duration: 1 }, i)
-      .call(() => shots.forEach((img, j) => img.classList.toggle('is-on', j === i)), null, i + .2);
+    tl.to(s, { opacity: 1, y: 0, duration: 1 }, i);
     if (i < steps.length - 1) tl.to(s, { opacity: .35, duration: .6 }, i + 1);
   });
-  gsap.to('.phone', { yPercent: -8, ease: 'none', scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: true } });
+  tl.to('.phone', { yPercent: -8, ease: 'none', duration: steps.length }, 0);
 }
 
 /** Mozaik: kartlar scroll'la sırayla belirir (stagger, rotateY'den düzleşir); fare ile hafif 3D eğim. */
-function motionShowcase() {
+function motionShowcase(signal) {
   const cards = gsap.utils.toArray('.mosaic .card');
   // fromTo: bitiş değerleri açık yazılır — 'from' ScrollTrigger yenilenmesinde başlangıcı bitiş sanıp kartları y:40'ta bırakıyor.
   gsap.fromTo(cards, { opacity: 0, y: 40, rotateY: -18 }, {
@@ -211,17 +224,25 @@ function motionShowcase() {
     scrollTrigger: { trigger: '.mosaic', start: 'top 80%', once: true },
   });
   cards.forEach((c) => {
+    gsap.set(c, { transformPerspective: 700 });
+    // quickTo: kart başına tek tween, her fare hareketinde yenisi yaratılmaz.
+    // Özellik adları GSAP'nin kanonik adları olmalı — quickTo 'rotateY'/'scale' takma adlarını sessizce yutar.
+    const toRotY = gsap.quickTo(c, 'rotationY', { duration: .3 });
+    const toRotX = gsap.quickTo(c, 'rotationX', { duration: .3 });
+    const toScaleX = gsap.quickTo(c, 'scaleX', { duration: .3 });
+    const toScaleY = gsap.quickTo(c, 'scaleY', { duration: .3 });
+    const scaleTo = (v) => { toScaleX(v); toScaleY(v); };
     c.addEventListener('mousemove', (e) => {
       const r = c.getBoundingClientRect();
       const px = (e.clientX - r.left) / r.width - .5;
       const py = (e.clientY - r.top) / r.height - .5;
-      gsap.to(c, { rotateY: px * 14, rotateX: -py * 10, scale: 1.04, duration: .3, transformPerspective: 700 });
-    });
-    c.addEventListener('mouseleave', () => gsap.to(c, { rotateY: 0, rotateX: 0, scale: 1, duration: .4 }));
+      toRotY(px * 14); toRotX(-py * 10); scaleTo(1.04);
+    }, { signal });
+    c.addEventListener('mouseleave', () => { toRotY(0); toRotX(0); scaleTo(1); }, { signal });
   });
 }
 
 /** İki katman: arka plan poster yavaş, metin normal. */
 function motionSelfie() {
-  gsap.to('#selfie-bg', { yPercent: 14, ease: 'none', scrollTrigger: { trigger: '.selfie', start: 'top bottom', end: 'bottom top', scrub: true } });
+  parallax('#selfie-bg', 14, '.selfie');
 }

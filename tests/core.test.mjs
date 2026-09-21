@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
-import { FEATURED_SLUGS, fmtDuration, pickLang, showcasePicks, stripPicks, t } from '../assets/core.js';
+import { FEATURED_SLUGS, STRIP_COUNT, fmtDuration, pickLang, showcasePicks, stripPicks, t } from '../assets/core.js';
 
 test('pickLang: ?lang > localStorage > navigator > en', () => {
   assert.equal(pickLang({ query: '?lang=tr', stored: 'en', navigatorLang: 'en-US' }), 'tr');
@@ -72,9 +72,9 @@ test('showcasePicks: gerçek katalogda 3 Jaguar geniş + 9 diğer, tekrarsız', 
   assert.equal(new Set([...wide, ...rest].map((x) => x.slug)).size, 12);
 });
 
-test('showcasePicks: seçki hero şeridinin 12 kartından farklı (geniş kartlar hariç)', () => {
+test('showcasePicks: seçki hero şeridindeki kartlardan farklı (geniş kartlar hariç)', () => {
   const cat = JSON.parse(readFileSync(new URL('../assets/templates.json', import.meta.url), 'utf8'));
-  const strip = new Set(stripPicks(cat, 12).map((x) => x.slug));
+  const strip = new Set(stripPicks(cat, STRIP_COUNT).map((x) => x.slug));
   const { wide, rest } = showcasePicks(cat, FEATURED_SLUGS, 12);
   assert.equal(rest.length, 9);
   for (const tpl of rest) assert.equal(strip.has(tpl.slug), false, tpl.slug);
