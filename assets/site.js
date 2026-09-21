@@ -18,7 +18,11 @@ function applyI18n() {
   const tr = lang === 'tr' ? '-tr' : '';
   document.getElementById('link-privacy').href = `privacy${tr}.html`;
   document.getElementById('link-terms').href = `terms${tr}.html`;
-  document.querySelectorAll('[data-name-en]').forEach((el) => { el.textContent = el.dataset[lang === 'tr' ? 'nameTr' : 'nameEn']; });
+  document.querySelectorAll('[data-name-en]').forEach((el) => {
+    const name = el.dataset[lang === 'tr' ? 'nameTr' : 'nameEn'];
+    el.textContent = name;
+    el.closest('button.card')?.setAttribute('aria-label', name);
+  });
   document.querySelectorAll('[data-cat-en]').forEach((el) => { el.textContent = el.dataset[lang === 'tr' ? 'catTr' : 'catEn']; });
   document.querySelectorAll('[data-sec]').forEach((el) => { el.textContent = fmtDuration(Number(el.dataset.sec), lang); });
 }
