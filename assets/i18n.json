@@ -6,7 +6,7 @@
     },
     "nav": { "templates": "Templates", "pricing": "Pricing", "faq": "FAQ", "lang": "TR" },
     "hero": {
-      "label": "AI car films · shot once, cut 36 ways",
+      "label": "AI car films · one shoot, dozens of scenes",
       "title1": "Put your build",
       "title2": "in the movie.",
       "sub": "8 photos, 30 seconds of your time, one cinematic film. Your paint, your wheels, your plate — and you at the wheel.",
@@ -20,14 +20,15 @@
       "s1t": "Shoot 8 angles",
       "s1d": "Walk around your car with the guided ring. Front, sides, rear, details — about 30 seconds.",
       "s2t": "Pick a scene",
-      "s2d": "36 templates across 8 categories: drift, night street, studio, track, offroad and more.",
+      "s2d": "Dozens of templates across 8 categories: drift, night street, studio, track, offroad and more — new scenes every week.",
       "s3t": "Send it",
       "s3d": "Your 10–15 s film lands in a couple of minutes, vertical 9:16, ready for Reels and TikTok."
     },
     "templates": {
       "label": "Templates",
-      "title": "36 scenes. Your car in every one.",
-      "sub": "Tap a card to watch. All previews are AI-generated from real owner photos."
+      "title": "Your car. Every scene.",
+      "sub": "A few of our favourites — all AI-generated from real owner photos.",
+      "more": "Dozens more in the app. New scenes added every week."
     },
     "selfie": {
       "label": "You, at the wheel",
@@ -90,7 +91,7 @@
     },
     "nav": { "templates": "Şablonlar", "pricing": "Fiyat", "faq": "SSS", "lang": "EN" },
     "hero": {
-      "label": "Yapay zekâ araba filmleri · bir çekim, 36 sahne",
+      "label": "Yapay zekâ araba filmleri · bir çekim, onlarca sahne",
       "title1": "Arabanı",
       "title2": "filme koy.",
       "sub": "8 fotoğraf, 30 saniyen, bir sinematik film. Senin boyan, senin jantların, senin plakan — ve direksiyonda sen.",
@@ -104,14 +105,15 @@
       "s1t": "8 açıdan çek",
       "s1d": "Halka rehberiyle aracın etrafında dolaş. Ön, yanlar, arka, detaylar — yaklaşık 30 saniye.",
       "s2t": "Sahne seç",
-      "s2d": "8 kategoride 36 şablon: drift, gece sokakları, stüdyo, pist, arazi ve daha fazlası.",
+      "s2d": "8 kategoride onlarca şablon: drift, gece sokakları, stüdyo, pist, arazi ve daha fazlası — her hafta yeni sahneler.",
       "s3t": "Gönder",
       "s3d": "10–15 sn'lik filmin birkaç dakikada gelir; dikey 9:16, Reels ve TikTok'a hazır."
     },
     "templates": {
       "label": "Şablonlar",
-      "title": "36 sahne. Her birinde senin araban.",
-      "sub": "İzlemek için karta dokun. Tüm önizlemeler gerçek sahip fotoğraflarından yapay zekâ ile üretildi."
+      "title": "Senin araban. Her sahne.",
+      "sub": "Birkaç favorimiz — hepsi gerçek sahip fotoğraflarından yapay zekâ ile üretildi.",
+      "more": "Uygulamada onlarcası daha. Her hafta yeni sahneler ekleniyor."
     },
     "selfie": {
       "label": "Direksiyonda sen",

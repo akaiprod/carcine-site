@@ -35,3 +35,14 @@ export function stripPicks(catalog, n) {
 export function fmtDuration(sec, lang) {
   return `${sec} ${lang === 'tr' ? 'sn' : 's'}`;
 }
+
+/** Vitrinde geniş kartlar sahibin Jaguar render'ları olmalı (sıra = öncelik). */
+export const FEATURED_SLUGS = ['neon-cruise', 'race-day', 'tunnel-pass', 'commercial', 'midnight-run', 'circuit-attack', 'dune-rush', 'mountain-pass', 'desert-drift'];
+
+/** Vitrin seçkisi: 3 geniş kart featured sırasında, kalan n-3 kart round-robin (geniş olanlar hariç). */
+export function showcasePicks(catalog, featured, n) {
+  const all = stripPicks(catalog, catalog.categories.reduce((s, c) => s + c.templates.length, 0));
+  const wide = featured.map((slug) => all.find((t2) => t2.slug === slug)).filter(Boolean).slice(0, 3);
+  const rest = all.filter((t2) => !wide.includes(t2)).slice(0, n - wide.length);
+  return { wide, rest };
+}

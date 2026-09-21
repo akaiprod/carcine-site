@@ -1,4 +1,4 @@
-import { fmtDuration, pickLang, stripPicks, t } from './core.js';
+import { FEATURED_SLUGS, fmtDuration, pickLang, showcasePicks, stripPicks, t } from './core.js';
 
 const LS = 'carcine.lang';
 let lang = 'en';
@@ -89,21 +89,34 @@ function seedStills(first) {
   if (step1) step1.classList.add('is-on');
 }
 
-function buildRails() {
-  const root = document.getElementById('rails');
-  catalog.categories.forEach((cat, i) => {
-    const title = document.createElement('h3');
-    title.className = 'rail-title';
-    title.dataset.catEn = cat.name.en; title.dataset.catTr = cat.name.tr;
-    const wrap = document.createElement('div');
-    wrap.className = 'rail-wrap';
-    const rail = document.createElement('div');
-    rail.className = 'rail';
-    rail.dataset.dir = i % 2 ? '1' : '-1';
-    cat.templates.forEach((tpl) => rail.appendChild(card(tpl, { interactive: true })));
-    wrap.appendChild(rail);
-    root.append(title, wrap);
+/** Vitrin: 12 kartlık seçki, geniş kartlar sahibin Jaguar render'ları; kategori adları çip. */
+function buildShowcase() {
+  const { wide, rest } = showcasePicks(catalog, FEATURED_SLUGS, 12);
+  // Her öbek geniş kartla başlar; öbek boyları 6 sütunluk ızgarayı deliksiz doldurur (boşluk son satırın sağında).
+  const groups = [4, 2, 3];
+  const order = [];
+  let k = 0;
+  wide.forEach((tpl, i) => {
+    order.push({ tpl, isWide: true });
+    rest.slice(k, k + groups[i]).forEach((r) => order.push({ tpl: r, isWide: false }));
+    k += groups[i];
   });
+  rest.slice(k).forEach((r) => order.push({ tpl: r, isWide: false }));
+
+  const grid = document.getElementById('mosaic');
+  order.forEach(({ tpl, isWide }) => {
+    const c = card(tpl, { interactive: true });
+    if (isWide) c.classList.add('is-wide');
+    grid.appendChild(c);
+  });
+
+  const chips = document.getElementById('chips');
+  catalog.categories.forEach((cat) => {
+    const li = document.createElement('li');
+    li.dataset.catEn = cat.name.en; li.dataset.catTr = cat.name.tr;
+    chips.appendChild(li);
+  });
+  return wide[0];
 }
 
 const lb = document.getElementById('lightbox');
@@ -134,8 +147,9 @@ async function main() {
   dict = i18n; catalog = cat;
   lang = pickLang({ query: location.search, stored: readStored(), navigatorLang: navigator.language });
   const picks = buildStrip();
-  if (picks[0]) seedStills(picks[0]);
-  buildRails();
+  const featured = buildShowcase();
+  const still = featured || picks[0];
+  if (still) seedStills(still);
   applyI18n();
   initMotion();
 }
@@ -148,6 +162,8 @@ function initMotion() {
   gsap.registerPlugin(ScrollTrigger);
   motionStrip();
   motionHow();
+  motionShowcase();
+  motionSelfie();
 }
 
 /** Sonsuz şerit: iki kopya, xPercent -50 döngü; scroll hızı timeScale'i büyütür, sonra 1'e döner. */
@@ -184,4 +200,28 @@ function motionHow() {
     if (i < steps.length - 1) tl.to(s, { opacity: .35, duration: .6 }, i + 1);
   });
   gsap.to('.phone', { yPercent: -8, ease: 'none', scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: true } });
+}
+
+/** Mozaik: kartlar scroll'la sırayla belirir (stagger, rotateY'den düzleşir); fare ile hafif 3D eğim. */
+function motionShowcase() {
+  const cards = gsap.utils.toArray('.mosaic .card');
+  // fromTo: bitiş değerleri açık yazılır — 'from' ScrollTrigger yenilenmesinde başlangıcı bitiş sanıp kartları y:40'ta bırakıyor.
+  gsap.fromTo(cards, { opacity: 0, y: 40, rotateY: -18 }, {
+    opacity: 1, y: 0, rotateY: 0, stagger: .06, duration: .8, ease: 'power3.out',
+    scrollTrigger: { trigger: '.mosaic', start: 'top 80%', once: true },
+  });
+  cards.forEach((c) => {
+    c.addEventListener('mousemove', (e) => {
+      const r = c.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - .5;
+      const py = (e.clientY - r.top) / r.height - .5;
+      gsap.to(c, { rotateY: px * 14, rotateX: -py * 10, scale: 1.04, duration: .3, transformPerspective: 700 });
+    });
+    c.addEventListener('mouseleave', () => gsap.to(c, { rotateY: 0, rotateX: 0, scale: 1, duration: .4 }));
+  });
+}
+
+/** İki katman: arka plan poster yavaş, metin normal. */
+function motionSelfie() {
+  gsap.to('#selfie-bg', { yPercent: 14, ease: 'none', scrollTrigger: { trigger: '.selfie', start: 'top bottom', end: 'bottom top', scrub: true } });
 }
