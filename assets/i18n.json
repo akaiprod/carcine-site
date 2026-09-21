@@ -28,7 +28,8 @@
       "label": "Templates",
       "title": "Your car. Every scene.",
       "sub": "A few of our favourites — all AI-generated from real owner photos.",
-      "more": "Dozens more in the app. New scenes added every week."
+      "more": "Dozens more in the app. New scenes added every week.",
+      "categories": "Categories"
     },
     "selfie": {
       "label": "You, at the wheel",
@@ -113,7 +114,8 @@
       "label": "Şablonlar",
       "title": "Senin araban. Her sahne.",
       "sub": "Birkaç favorimiz — hepsi gerçek sahip fotoğraflarından yapay zekâ ile üretildi.",
-      "more": "Uygulamada onlarcası daha. Her hafta yeni sahneler ekleniyor."
+      "more": "Uygulamada onlarcası daha. Her hafta yeni sahneler ekleniyor.",
+      "categories": "Kategoriler"
     },
     "selfie": {
       "label": "Direksiyonda sen",

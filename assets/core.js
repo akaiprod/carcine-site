@@ -39,10 +39,16 @@ export function fmtDuration(sec, lang) {
 /** Vitrinde geniş kartlar sahibin Jaguar render'ları olmalı (sıra = öncelik). */
 export const FEATURED_SLUGS = ['neon-cruise', 'race-day', 'tunnel-pass', 'commercial', 'midnight-run', 'circuit-attack', 'dune-rush', 'mountain-pass', 'desert-drift'];
 
-/** Vitrin seçkisi: 3 geniş kart featured sırasında, kalan n-3 kart round-robin (geniş olanlar hariç). */
-export function showcasePicks(catalog, featured, n) {
+/**
+ * Vitrin seçkisi: 3 geniş kart featured sırasında, kalan n-3 kart round-robin.
+ * Kalanlar hem geniş kartlardan hem de hero şeridindeki 12 karttan farklı (varsayılan exclude);
+ * geniş kartlar şeritle çakışabilir (sahibin Jaguar render'ları hep geniş).
+ */
+export function showcasePicks(catalog, featured, n, exclude = stripPicks(catalog, 12).map((t2) => t2.slug)) {
   const all = stripPicks(catalog, catalog.categories.reduce((s, c) => s + c.templates.length, 0));
   const wide = featured.map((slug) => all.find((t2) => t2.slug === slug)).filter(Boolean).slice(0, 3);
-  const rest = all.filter((t2) => !wide.includes(t2)).slice(0, n - wide.length);
+  const wideSlugs = new Set(wide.map((t2) => t2.slug));
+  const skip = new Set(exclude);
+  const rest = all.filter((t2) => !wideSlugs.has(t2.slug) && !skip.has(t2.slug)).slice(0, n - wide.length);
   return { wide, rest };
 }

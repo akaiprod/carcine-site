@@ -56,7 +56,7 @@ test('showcasePicks: geniş kartlar featured sırasında, geri kalan round-robin
     ],
   };
   const featured = ['c2', 'yok', 'a3', 'b1', 'c1'];
-  const { wide, rest } = showcasePicks(cat, featured, 6);
+  const { wide, rest } = showcasePicks(cat, featured, 6, []);
   assert.deepEqual(wide.map((x) => x.slug), ['c2', 'a3', 'b1']);
   assert.equal(rest.length, 3);
   assert.deepEqual(rest.map((x) => x.slug), ['a1', 'c1', 'a2']);
@@ -69,5 +69,14 @@ test('showcasePicks: gerçek katalogda 3 Jaguar geniş + 9 diğer, tekrarsız', 
   assert.equal(wide.length, 3);
   assert.equal(rest.length, 9);
   assert.deepEqual(wide.map((x) => x.slug), FEATURED_SLUGS.slice(0, 3));
+  assert.equal(new Set([...wide, ...rest].map((x) => x.slug)).size, 12);
+});
+
+test('showcasePicks: seçki hero şeridinin 12 kartından farklı (geniş kartlar hariç)', () => {
+  const cat = JSON.parse(readFileSync(new URL('../assets/templates.json', import.meta.url), 'utf8'));
+  const strip = new Set(stripPicks(cat, 12).map((x) => x.slug));
+  const { wide, rest } = showcasePicks(cat, FEATURED_SLUGS, 12);
+  assert.equal(rest.length, 9);
+  for (const tpl of rest) assert.equal(strip.has(tpl.slug), false, tpl.slug);
   assert.equal(new Set([...wide, ...rest].map((x) => x.slug)).size, 12);
 });
