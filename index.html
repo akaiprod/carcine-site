@@ -3,45 +3,155 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Carcine</title>
-<style>
-  :root { --bg:#0A0B0D; --fg:#EDEDEA; --muted:#9AA0A6; --accent:#FF3B14; --line:#1F2226; }
-  * { box-sizing:border-box; }
-  body { margin:0; background:var(--bg); color:var(--fg);
-         font:16px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-         padding:48px 20px; }
-  main { max-width:680px; margin:0 auto; }
-  h1 { font-size:28px; margin:0 0 4px; letter-spacing:-.01em; }
-  h2 { font-size:17px; margin:36px 0 10px; color:var(--accent); }
-  .sub { color:var(--muted); margin:0 0 32px; }
-  a { color:var(--accent); }
-  ul { padding-left:22px; }
-  ul > li { margin:6px 0; }
-  footer { margin-top:56px; padding-top:20px; border-top:1px solid var(--line);
-           color:var(--muted); font-size:14px; }
-</style>
+<title data-i18n="meta.title">Carcine — Put your build in the movie</title>
+<meta name="description" data-i18n-content="meta.description" content="Shoot your car once, pick a scene, get a 10–15 s AI-generated cinematic film.">
+<meta name="theme-color" content="#0A0B0D">
+<link rel="icon" href="assets/images/icon.png">
+<link rel="apple-touch-icon" href="assets/images/icon.png">
+<link rel="canonical" href="https://carcineapp.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://carcineapp.com/">
+<meta property="og:title" data-i18n-content="meta.title" content="Carcine — Put your build in the movie">
+<meta property="og:description" data-i18n-content="meta.description" content="Shoot your car once, pick a scene, get a 10–15 s AI-generated cinematic film.">
+<meta property="og:image" content="https://carcineapp.com/assets/images/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://aaacqrwhqiqtuouypwzq.supabase.co">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,800&family=Barlow:wght@400;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
-<main>
-  <h1>Carcine</h1>
-  <p class="sub">Cinematic AI videos of your own car. · Kendi aracının sinematik yapay zekâ videoları.</p>
+<a class="skip" href="#how" data-i18n="how.label">How it works</a>
 
-  <h2>English</h2>
-  <ul>
-    <li><a href="privacy.html">Privacy Policy</a></li>
-    <li><a href="terms.html">Terms of Use</a></li>
-  </ul>
+<header class="nav">
+  <a class="brand" href="#top">CARCINE</a>
+  <nav aria-label="Site">
+    <a href="#templates" data-i18n="nav.templates">Templates</a>
+    <a href="#pricing" data-i18n="nav.pricing">Pricing</a>
+    <a href="#faq" data-i18n="nav.faq">FAQ</a>
+    <button class="lang" id="lang" type="button" data-i18n="nav.lang" aria-label="Türkçe">TR</button>
+  </nav>
+</header>
 
-  <h2>Türkçe</h2>
-  <ul>
-    <li><a href="privacy-tr.html">Gizlilik Politikası ve Aydınlatma Metni</a></li>
-    <li><a href="terms-tr.html">Kullanım Koşulları</a></li>
-  </ul>
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <p class="lab" data-i18n="hero.label">AI car films · shot once, cut 36 ways</p>
+      <h1 class="big"><span data-i18n="hero.title1">Put your build</span><br><em data-i18n="hero.title2">in the movie.</em></h1>
+      <div class="hero-row">
+        <a class="cta" href="#download" data-i18n="hero.cta">Get the app</a>
+        <p class="sub" data-i18n="hero.sub">8 photos, 30 seconds of your time, one cinematic film.</p>
+      </div>
+      <div class="stores" id="download">
+        <a class="store" href="https://apps.apple.com/app/id6806583883" rel="noopener">
+          <span class="store-ico" aria-hidden="true"></span><span data-i18n="hero.appstore">Download on the App Store</span>
+        </a>
+        <span class="store is-soon" aria-disabled="true">
+          <span class="store-ico play" aria-hidden="true"></span><span data-i18n="hero.play">Google Play — coming soon</span>
+        </span>
+      </div>
+    </div>
+    <div class="strip" aria-hidden="true"><div class="strip-track" id="strip"></div></div>
+  </section>
 
-  <footer>
-    Carcine · <a href="mailto:anilunkaya@gmail.com">anilunkaya@gmail.com</a> ·
-    Last updated 2026-09-15 · Son güncelleme 15 Eylül 2026
-  </footer>
+  <section class="how" id="how">
+    <div class="wrap how-grid">
+      <div class="how-steps">
+        <p class="lab" data-i18n="how.label">How it works</p>
+        <h2 class="big" data-i18n="how.title">Three steps. One film.</h2>
+        <ol class="steps">
+          <li class="step" data-step="1"><span class="num">01</span><h3 data-i18n="how.s1t">Shoot 8 angles</h3><p data-i18n="how.s1d"></p></li>
+          <li class="step" data-step="2"><span class="num">02</span><h3 data-i18n="how.s2t">Pick a scene</h3><p data-i18n="how.s2d"></p></li>
+          <li class="step" data-step="3"><span class="num">03</span><h3 data-i18n="how.s3t">Send it</h3><p data-i18n="how.s3d"></p></li>
+        </ol>
+      </div>
+      <div class="phone" aria-hidden="true">
+        <div class="phone-screen">
+          <img class="shot" data-step="1" src="assets/images/step-capture.png" alt="" loading="lazy">
+          <img class="shot" data-step="2" src="assets/images/step-catalog.png" alt="" loading="lazy">
+          <img class="shot" data-step="3" id="shot-result" src="" alt="" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="templates" id="templates">
+    <div class="wrap">
+      <p class="lab" data-i18n="templates.label">Templates</p>
+      <h2 class="big" data-i18n="templates.title">36 scenes. Your car in every one.</h2>
+      <p class="sub" data-i18n="templates.sub"></p>
+    </div>
+    <div id="rails"></div>
+  </section>
+
+  <section class="selfie" id="selfie">
+    <div class="selfie-bg" id="selfie-bg" aria-hidden="true"></div>
+    <div class="wrap selfie-copy">
+      <p class="lab" data-i18n="selfie.label">You, at the wheel</p>
+      <h2 class="big" data-i18n="selfie.title">Add a selfie — you're driving in every shot.</h2>
+      <p class="sub" data-i18n="selfie.sub"></p>
+    </div>
+  </section>
+
+  <section class="pricing" id="pricing">
+    <div class="wrap">
+      <p class="lab" data-i18n="pricing.label">Pricing</p>
+      <h2 class="big" data-i18n="pricing.title">Pay per film or go Pro.</h2>
+      <div class="plans">
+        <article class="plan pro">
+          <span class="badge" data-i18n="pricing.proMonthlyBadge">Best value</span>
+          <h3><span data-i18n="pricing.pro">Pro</span> · <span data-i18n="pricing.proMonthly">Monthly</span></h3>
+          <p class="price"><span data-i18n="pricing.proPriceMonthly">$16.99</span> <small data-i18n="pricing.proPerMonth">per month</small></p>
+          <ul><li data-i18n="pricing.proFeat1"></li><li data-i18n="pricing.proFeat2"></li><li data-i18n="pricing.proFeat3"></li></ul>
+        </article>
+        <article class="plan">
+          <h3><span data-i18n="pricing.pro">Pro</span> · <span data-i18n="pricing.proWeekly">Weekly</span></h3>
+          <p class="price"><span data-i18n="pricing.proPriceWeekly">$6.99</span> <small data-i18n="pricing.proPerWeek">per week</small></p>
+          <ul><li data-i18n="pricing.proFeat1"></li><li data-i18n="pricing.proFeat2"></li><li data-i18n="pricing.proFeat3"></li></ul>
+        </article>
+      </div>
+      <h3 class="packs-title" data-i18n="pricing.packs">Credit packs</h3>
+      <div class="packs">
+        <article class="pack"><h4 data-i18n="pricing.pack30">30 credits</h4><p class="films" data-i18n="pricing.pack30d">1 film</p><p class="price" data-i18n="pricing.pack30p">$3.99</p></article>
+        <article class="pack"><h4 data-i18n="pricing.pack150">150 credits</h4><p class="films" data-i18n="pricing.pack150d">5 films</p><p class="price" data-i18n="pricing.pack150p">$17.99</p></article>
+        <article class="pack"><h4 data-i18n="pricing.pack300">300 credits</h4><p class="films" data-i18n="pricing.pack300d">10 films</p><p class="price" data-i18n="pricing.pack300p">$27.99</p></article>
+      </div>
+      <p class="note" data-i18n="pricing.note"></p>
+    </div>
+  </section>
+
+  <section class="faq" id="faq">
+    <div class="wrap">
+      <p class="lab" data-i18n="faq.label">FAQ</p>
+      <h2 class="big" data-i18n="faq.title">Questions</h2>
+      <details><summary data-i18n="faq.q1"></summary><p data-i18n="faq.a1"></p></details>
+      <details><summary data-i18n="faq.q2"></summary><p data-i18n="faq.a2"></p></details>
+      <details><summary data-i18n="faq.q3"></summary><p data-i18n="faq.a3"></p></details>
+      <details><summary data-i18n="faq.q4"></summary><p data-i18n="faq.a4"></p></details>
+      <details><summary data-i18n="faq.q5"></summary><p data-i18n="faq.a5"></p></details>
+    </div>
+  </section>
 </main>
+
+<footer class="foot">
+  <div class="wrap">
+    <nav aria-label="Legal">
+      <a id="link-privacy" href="privacy.html" data-i18n="footer.privacy">Privacy</a>
+      <a id="link-terms" href="terms.html" data-i18n="footer.terms">Terms</a>
+      <a href="mailto:anilunkaya@gmail.com" data-i18n="footer.contact">Contact</a>
+    </nav>
+    <p class="ai" data-i18n="footer.ai">All videos on this page are AI-generated.</p>
+    <p class="copy" data-i18n="footer.copy">© 2026 Carcine</p>
+  </div>
+</footer>
+
+<dialog class="lightbox" id="lightbox">
+  <button class="close" id="lightbox-close" type="button" data-i18n-aria="lightbox.close" aria-label="Close">×</button>
+  <video id="lightbox-video" controls playsinline preload="none"></video>
+  <p class="lightbox-name" id="lightbox-name"></p>
+</dialog>
+
+<script type="module" src="assets/site.js"></script>
 </body>
 </html>
