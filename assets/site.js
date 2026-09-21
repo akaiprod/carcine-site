@@ -595,9 +595,37 @@ function motionProof() {
   if (!imgs.length || !v) return;
   loadOnApproach('.proof', () => { if (!v.src) v.src = v.dataset.src; });
   const rx = () => Math.min(innerWidth * .38, 520);
-  const ry = () => Math.min(innerHeight * .34, 300);
+  // Halka merkezi kopya bloğunun ALTINDA: 1280×800'de üst fotoğraf başlığa biniyordu.
+  const RING_DY = 40;
+  const PHOTO_H = 240; // .proof-ring img: 120 geniş, 9/16
+  // Dikey yarıçap kısa ekranda kopyaya göre KISILIR: 1280×800'de .28 × 800 = 224 hâlâ üst
+  // fotoğrafı başlığın üstüne koyuyordu (ölçüm: foto tepesi 103, kopya 106–217). Tavan,
+  // üst fotoğrafın alt kenarının kopyanın 16px altında kalmasından çıkar.
+  const ry = () => {
+    const stage = document.querySelector('.proof-stage');
+    const copy = document.querySelector('.proof-copy');
+    let cap = Infinity;
+    if (stage && copy) {
+      const sr = stage.getBoundingClientRect();
+      cap = sr.height / 2 + RING_DY - (copy.getBoundingClientRect().bottom - sr.top + 16 + PHOTO_H / 2);
+    }
+    return Math.max(80, Math.min(innerHeight * .28, 240, cap));
+  };
   gsap.set(imgs, { xPercent: -50, yPercent: -50 });
-  gsap.set(v.parentElement, { scale: 0, opacity: 0 });
+  // Video kopyanın ALTINDA kalan boşluğa ortalanır; kısa ekranda (592px'lik kutu 800px'e
+  // sığmıyor) ekran dışına taşmasın diye alt/üst 8px payla kıstırılır.
+  const videoDY = () => {
+    const stage = document.querySelector('.proof-stage');
+    const copy = document.querySelector('.proof-copy');
+    const box = v.parentElement;
+    if (!stage || !copy) return RING_DY;
+    const sr = stage.getBoundingClientRect();
+    const half = box.offsetHeight / 2;
+    const band = ((copy.getBoundingClientRect().bottom - sr.top) + sr.height) / 2;
+    const cy = Math.min(Math.max(band, 8 + half), sr.height - 8 - half);
+    return cy - sr.height / 2;
+  };
+  gsap.set(v.parentElement, { scale: 0, opacity: 0, y: videoDY });
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: '.proof', start: 'top top', end: '+=250%', pin: '.proof-stage', scrub: .5, invalidateOnRefresh: true,
@@ -610,10 +638,12 @@ function motionProof() {
   imgs.forEach((img, i) => {
     const a = (i / imgs.length) * Math.PI * 2 - Math.PI / 2;
     tl.fromTo(img, { x: () => Math.cos(a) * innerWidth, y: () => Math.sin(a) * innerHeight, rotation: (i % 2 ? 1 : -1) * 18, opacity: 0 },
-      { x: () => Math.cos(a) * rx(), y: () => Math.sin(a) * ry(), rotation: (i % 2 ? 1 : -1) * 6, opacity: 1, duration: 1, ease: 'power3.out' }, i * .08);
+      { x: () => Math.cos(a) * rx(), y: () => Math.sin(a) * ry() + RING_DY, rotation: (i % 2 ? 1 : -1) * 6, opacity: 1, duration: 1, ease: 'power3.out' }, i * .08);
   });
-  tl.to(imgs, { x: 0, y: 0, scale: .2, opacity: 0, duration: .8, ease: 'power3.in', stagger: .03 }, 1.6)
-    .to(v.parentElement, { scale: 1, opacity: 1, duration: .8, ease: 'power3.out' }, 1.9);
+  // Fotoğraflar halkanın merkezine (RING_DY) emilir; video hafif taşıp (1.08) yerine oturur.
+  tl.to(imgs, { x: 0, y: RING_DY, scale: .2, opacity: 0, duration: .8, ease: 'power3.in', stagger: .03 }, 1.6)
+    .to(v.parentElement, { scale: 1.08, opacity: 1, y: videoDY, duration: .8, ease: 'power3.out' }, 1.9)
+    .to(v.parentElement, { scale: 1, duration: .3, ease: 'power2.out' });
 }
 
 /** Bölüm başlıkları: scroll'la harf harf yükselir (bir kez). */
