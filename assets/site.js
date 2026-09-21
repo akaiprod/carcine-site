@@ -147,6 +147,7 @@ function initMotion() {
   if (reduce || mobile || !window.gsap) return;
   gsap.registerPlugin(ScrollTrigger);
   motionStrip();
+  motionHow();
 }
 
 /** Sonsuz şerit: iki kopya, xPercent -50 döngü; scroll hızı timeScale'i büyütür, sonra 1'e döner. */
@@ -167,3 +168,20 @@ function motionStrip() {
 }
 
 main().catch((e) => console.error('site init', e));
+
+/** Pin'li bölüm: scrub ile 3 adım sırayla belirir, telefon ekranı adım görselini değiştirir, telefon yavaş kayar. */
+function motionHow() {
+  const section = document.querySelector('.how');
+  const steps = gsap.utils.toArray('.step');
+  const shots = gsap.utils.toArray('.shot');
+  gsap.set(steps, { opacity: .25, y: 24 });
+  const tl = gsap.timeline({
+    scrollTrigger: { trigger: section, start: 'top top', end: '+=180%', pin: true, scrub: .6 },
+  });
+  steps.forEach((s, i) => {
+    tl.to(s, { opacity: 1, y: 0, duration: 1 }, i)
+      .call(() => shots.forEach((img, j) => img.classList.toggle('is-on', j === i)), null, i + .2);
+    if (i < steps.length - 1) tl.to(s, { opacity: .35, duration: .6 }, i + 1);
+  });
+  gsap.to('.phone', { yPercent: -8, ease: 'none', scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: true } });
+}
