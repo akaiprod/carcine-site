@@ -30,6 +30,11 @@
       "hint": "Scroll to switch scenes",
       "yours": "Your car here"
     },
+    "proof": {
+      "label": "Proof",
+      "title": "8 photos. 30 seconds. One film.",
+      "sub": "Shot on a phone. Rendered by Carcine."
+    },
     "templates": {
       "label": "Templates",
       "title": "Your car. Every scene.",
@@ -121,6 +126,11 @@
       "title": "Sahneni seç.",
       "hint": "Sahne değiştirmek için kaydır",
       "yours": "Burada senin araban"
+    },
+    "proof": {
+      "label": "Kanıt",
+      "title": "8 fotoğraf. 30 saniye. Bir film.",
+      "sub": "Telefonla çekildi. Carcine'de render edildi."
     },
     "templates": {
       "label": "Şablonlar",

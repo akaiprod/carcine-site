@@ -1,4 +1,4 @@
-import { FEATURED_SLUGS, REEL_SLUGS, STRIP_COUNT, fmtDuration, pickLang, showcasePicks, siteVideo, stripPicks, t } from './core.js';
+import { FEATURED_SLUGS, REEL_SLUGS, STRIP_COUNT, fmtDuration, jagPhoto, pickLang, showcasePicks, siteVideo, stripPicks, t } from './core.js';
 
 const LS = 'carcine.lang';
 let lang = 'en';
@@ -169,6 +169,29 @@ function buildMarquee() {
   }
 }
 
+/** "8 fotoğraftan filme": 8 Jaguar açı fotoğrafı + merkezdeki race-day videosu (tıkla oynat). */
+function buildProof() {
+  const ring = document.getElementById('proof-ring');
+  const box = document.getElementById('proof-video');
+  if (!ring || !box) return;
+  for (let i = 0; i < 8; i++) {
+    const img = document.createElement('img');
+    img.src = jagPhoto(i); img.alt = ''; img.loading = 'lazy'; img.decoding = 'async'; img.width = 720; img.height = 1280;
+    ring.appendChild(img);
+  }
+  const all = catalog.categories.flatMap((c) => c.templates);
+  const rd = all.find((tpl) => tpl.slug === 'race-day');
+  const v = document.createElement('video');
+  v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'none';
+  if (rd) v.poster = rd.poster;
+  v.dataset.src = siteVideo('race-day');
+  box.appendChild(v);
+  box.addEventListener('click', () => {
+    if (!v.src) v.src = v.dataset.src;
+    if (v.paused) v.play().catch(() => {}); else v.pause();
+  });
+}
+
 /** GSAP'siz sayfada da dolu görünsün: sonuç karesi, selfie fonu, ilk adım görseli. */
 function seedStills(first) {
   const shot = document.getElementById('shot-result');
@@ -241,6 +264,7 @@ async function main() {
   const picks = buildStrip();
   reelItems = buildReel();
   buildMarquee();
+  buildProof();
   const featured = buildShowcase();
   const still = featured || picks[0];
   if (still) seedStills(still);
@@ -262,6 +286,7 @@ function initMotion() {
     initCursor(ctrl.signal);
     motionStrip(ctrl.signal);
     motionReel();
+    motionProof();
     motionHow();
     motionShowcase(ctrl.signal);
     motionSelfie();
@@ -411,4 +436,29 @@ function motionReel() {
     onEnterBack: () => videos[active].play().catch(() => {}),
     onLeaveBack: () => videos[active].pause(),
   });
+}
+
+/** 8 fotoğraf → film: fotoğraflar kenarlardan elips dizilime uçar, sonra merkeze çöker; video büyüyüp oynar. */
+function motionProof() {
+  const imgs = gsap.utils.toArray('#proof-ring img');
+  const v = document.querySelector('#proof-video video');
+  if (!imgs.length || !v) return;
+  ScrollTrigger.create({ trigger: '.proof', start: 'top 150%', once: true, onEnter: () => { v.src = v.dataset.src; } });
+  const rx = () => Math.min(innerWidth * .38, 520);
+  const ry = () => Math.min(innerHeight * .34, 300);
+  gsap.set(imgs, { xPercent: -50, yPercent: -50 });
+  gsap.set(v.parentElement, { scale: 0, opacity: 0 });
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '.proof', start: 'top top', end: '+=250%', pin: '.proof-stage', scrub: .5, invalidateOnRefresh: true,
+      onUpdate: (self) => { if (self.progress > .6) v.play().catch(() => {}); else v.pause(); },
+    },
+  });
+  imgs.forEach((img, i) => {
+    const a = (i / imgs.length) * Math.PI * 2 - Math.PI / 2;
+    tl.fromTo(img, { x: () => Math.cos(a) * innerWidth, y: () => Math.sin(a) * innerHeight, rotation: (i % 2 ? 1 : -1) * 18, opacity: 0 },
+      { x: () => Math.cos(a) * rx(), y: () => Math.sin(a) * ry(), rotation: (i % 2 ? 1 : -1) * 6, opacity: 1, duration: 1, ease: 'power3.out' }, i * .08);
+  });
+  tl.to(imgs, { x: 0, y: 0, scale: .2, opacity: 0, duration: .8, ease: 'power3.in', stagger: .03 }, 1.6)
+    .to(v.parentElement, { scale: 1, opacity: 1, duration: .8, ease: 'power3.out' }, 1.9);
 }
